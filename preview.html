@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Companies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .company-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* Four equal columns */
+            gap: 10px;
+            /* Add some spacing between items */
+        }
+
+        .company {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row header" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="hTxt" id="previewHeader" style="flex-grow: 1; text-align: center;">
+                <!-- UPCOMING DRIVES FOR SEPTEMBER & OCTOBER - 2024 -->
+            </div>
+            <div>
+                <img src="./images/carrerit.png" alt="logo" width="150px" height="60px" class="hdr-sty">
+            </div>
+        </div>
+
+
+        <!-- Company List -->
+        <div class="company-list" id="companyList">
+            <!-- Company List will be inserted here -->
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer row">
+        <div class="col-4">
+            <p style="text-align: left;"><i class="bi bi-telephone green-icon"></i> Kondalarao Arigela: +919160040789
+            </p>
+            <p style="text-align: left;"><i class="bi bi-telephone green-icon"></i> Venkat Genikala: +919160096789</p>
+        </div>
+        <div class="col-4">
+            <img src="./images/qrcode_location.png" alt="QRcode" width="100px" height="100px">
+        </div>
+        <div class="col-4">
+            <p style="text-align: left;"><i class="bi bi-geo-alt-fill white-icon"></i> Address: HIG 205, 4th & 5th
+                Floor, Roots Academy Building, MRO Office Line, KPHB-Hyd</p>
+            <p style="text-align: left;"><i class="bi bi-envelope-fill white-icon"></i> Email: info@careerit.co.in</p>
+            <p style="text-align: left;"><i class="bi bi-globe white-icon"></i> www.careerit.co.in</p>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center m-3">
+            <button class="btn btn-primary" id="backBtn">Back to Form</button>
+        </div>
+    </div>
+
+    <script>
+        // Back Button functionality to close preview and return to form
+        document.getElementById('backBtn').addEventListener('click', function () {
+            window.close(); // Close the preview window
+        });
+
+        window.addEventListener('message', function (event) {
+            if (event.data.type === 'populatePreview') {
+                const { headerTitle, companies } = event.data;
+
+                // Set header title
+                document.getElementById('previewHeader').innerText = headerTitle;
+
+                // Populate company list
+                const companyList = document.getElementById('companyList');
+                companyList.innerHTML = ''; // Clear previous list
+
+                companies.forEach(company => {
+                    const companyElement = document.createElement('div');
+                    companyElement.classList.add('company');
+
+                    companyElement.innerHTML = `
+                        <div class="company-content">
+                            <img src="${company.logo}" alt="${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
+                            <p class="title">${company.name}</p>
+                        </div>
+                        ${company.technologies ? `
+                            <div class="technologies">
+                                <p><strong>Technologies:</strong> ${company.technologies}</p>
+                            </div>
+                        ` : ''}
+                    `;
+
+                    companyList.appendChild(companyElement);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
