@@ -11,7 +11,6 @@ body {
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
-    border-radius: 10px;
     background-image: url("./images/highres.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -19,6 +18,8 @@ body {
 
 /* Header */
 .header {
+    position: relative;
+
     height: 100px;
     padding: 15px;
     background-color: #ff4c4c;
@@ -27,9 +28,12 @@ body {
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    /* Vertically center the content */
     margin-bottom: 20px;
     position: relative;
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
 }
 
 .hTxt {
@@ -40,7 +44,8 @@ body {
     border-radius: 10px;
     padding: 6px;
     text-align: center;
-    max-width: calc(100% - 200px); /* Prevent text overlap with image */
+    max-width: calc(100% - 300px);
+    /* Prevent text overlap with image */
 }
 
 .hdr-sty {
@@ -52,13 +57,23 @@ body {
     margin-left: 20px;
 }
 
+
+
 .header img {
+    position: absolute;
+    top: 5;
+    right: 5;
+    z-index: 10;
+
     max-width: 130px;
     height: auto;
     border-radius: 10px;
 }
 
-.call-link, .email-link, .website-link {
+
+.call-link,
+.email-link,
+.website-link {
     text-decoration: none;
     color: inherit;
     font-weight: bold;
@@ -108,7 +123,7 @@ body {
     position: absolute;
     top: 10px;
     /* left: 10px; */
-    margin-left:130px ;
+    margin-left: 130px;
     background-color: white;
     color: red;
     border: 1px solid red;
@@ -133,7 +148,7 @@ body {
     padding: 15px;
     color: white;
     text-align: center;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     background-color: #ff4c4c;
     margin: 0;
 }
@@ -168,6 +183,7 @@ body {
     background-repeat: no-repeat;
     background-size: 100%;
 }
+
 #CFSsty {
     font-weight: bold;
     text-align: center;
@@ -236,7 +252,8 @@ body {
 
     /* Form background for screen widths less than 1200px */
     .companyFS {
-        background-image: url(./images/mediumScreenBackground.jpeg); /* Medium screen background */
+        background-image: url(./images/mediumScreenBackground.jpeg);
+        /* Medium screen background */
         background-size: cover;
         background-position: center;
     }
@@ -259,7 +276,8 @@ body {
 
     /* Form background for screen widths less than 768px */
     .companyFS {
-        background-image: url(./images/smallscrn.jpeg); /* Small screen background */
+        background-image: url(./images/smallscrn.jpeg);
+        /* Small screen background */
         background-size: cover;
         background-position: center;
     }
@@ -281,7 +299,8 @@ body {
 
     /* Form background for screen widths less than 576px */
     .companyFS {
-        background-image: url(./images/mobback.jpeg); /* Mobile screen background */
+        background-image: url(./images/mobback.jpeg);
+        /* Mobile screen background */
         background-size: cover;
         background-position: center;
     }
