@@ -10,6 +10,7 @@ body {
     max-width: 100%;
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.8);
+    padding-top: 5px !important;
     padding: 20px;
     background-image: url("./images/highres.jpeg");
     background-repeat: no-repeat;
@@ -19,19 +20,17 @@ body {
 /* Header */
 .header {
     position: relative;
-
-    height: 100px;
+    /* height: 100px; */
+    height: 90px;
     padding: 15px;
     background-color: #ff4c4c;
     font-size: 24px;
     font-weight: bold;
     border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* Vertically center the content */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     margin-bottom: 20px;
-    position: relative;
     flex-wrap: nowrap;
     /* Prevent wrapping */
 }
@@ -44,7 +43,7 @@ body {
     border-radius: 10px;
     padding: 6px;
     text-align: center;
-    max-width: calc(100% - 300px);
+    max-width: calc(100% - 100px);
     /* Prevent text overlap with image */
 }
 
@@ -57,18 +56,72 @@ body {
     margin-left: 20px;
 }
 
-
-
 .header img {
     position: absolute;
-    top: 5;
-    right: 5;
+    top: 4px;
+    /* Make sure it's aligned properly */
+    right: 5px;
+    /* Keep it aligned right */
     z-index: 10;
-
     max-width: 130px;
     height: auto;
     border-radius: 10px;
 }
+
+/* Print Specific Styles */
+ @media print {
+    .header {
+        position: relative;
+        height: 90px;
+        padding: 15px;
+    }
+
+    /* .hTxt {
+        margin-left: 90px !important;
+        margin-right: 20px;
+        text-align: center;
+        max-width: calc(100% - 100px);
+       
+    } */
+
+    .hTxt {
+        flex-grow: 1;
+        word-wrap: break-word;
+        margin-right: 20px;
+        color: white;
+        border-radius: 10px;
+        padding: 6px;
+        text-align: center;
+        max-width: calc(100% - 100px);
+        transform: translateX(20%); 
+        /* Prevent text overlap with image */
+    }
+
+
+
+    .header img {
+        position: absolute;
+        top: 4px;
+        right: 5px;
+        max-width: 130px;
+        height: auto;
+        border-radius: 10px;
+        z-index: 10;
+    }
+
+    #companiesSection .company-logo,
+    #companyList .company-logo {
+        max-height: 150px;
+        height: auto;
+    }
+
+    .row {
+        page-break-inside: avoid;
+    }
+} 
+
+
+
 
 
 .call-link,
@@ -77,53 +130,16 @@ body {
     text-decoration: none;
     color: inherit;
     font-weight: bold;
+    font-size: 12px;
 }
 
-/* Company List */
-.company-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
 
-.company {
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.company img {
-    width: 50px;
-    height: auto;
-    margin-right: 15px;
-    object-fit: contain;
-}
-
-.company .title {
-    font-size: 1.65rem;
-    color: rgb(32, 52, 111);
-    font-weight: bold;
-    margin: 0;
-}
-
-.company-content {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.technologies {
-    margin-top: 10px;
-    margin-left: 30px;
-}
 
 /* Delete Button */
 .delete-btn {
     position: absolute;
     top: 10px;
-    /* left: 10px; */
-    margin-left: 130px;
+    margin-left: 130px !important;
     background-color: white;
     color: red;
     border: 1px solid red;
@@ -145,7 +161,7 @@ body {
 
 /* Footer */
 .footer {
-    padding: 15px;
+    padding: 5px;
     color: white;
     text-align: center;
     /* border-radius: 8px; */
@@ -154,12 +170,12 @@ body {
 }
 
 .footer p {
-    margin: 5px 0;
+    margin: 3px 0;
 }
 
 .green-icon {
     margin: 2px;
-    padding: 4px;
+    padding: 3px;
     color: white;
     background-color: green;
     border-radius: 10px;
@@ -167,7 +183,7 @@ body {
 
 .white-icon {
     margin: 2px;
-    padding: 4px;
+    padding: 3px;
     color: red;
     background-color: white;
     border-radius: 10px;
@@ -178,10 +194,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url(./images/grayewhite.jpeg);
+    /* background-image: url(./images/grayewhite.jpeg); */
     border-radius: 20px;
-    background-repeat: no-repeat;
-    background-size: 100%;
+    /* background-repeat: no-repeat;
+    background-size: 100%; */
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 #CFSsty {
@@ -242,8 +260,13 @@ body {
         margin: 0;
     }
 
-    .company-list {
-        grid-template-columns: repeat(2, 1fr);
+    #companyList {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    #companiesSection .company-content img {
+        max-width: 160px;
+        /* Adjust size for medium screens */
     }
 
     .footer .col-4 {
@@ -268,10 +291,21 @@ body {
     .hTxt {
         font-size: 20px;
         margin-right: 0;
+       
     }
 
-    .company-list {
+    #companyList {
         grid-template-columns: 1fr;
+    }
+
+    #companyList .company-content img {
+        max-width: 100px;
+        /* Maintain normal size */
+    }
+
+    #companiesSection .company-content img {
+        max-width: 140px;
+        /* Adjust size for small screens */
     }
 
     /* Form background for screen widths less than 768px */
@@ -307,3 +341,134 @@ body {
 }
 
 /* rearrangement logic */
+
+.sty12 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+@media print {
+
+    /* Adjust styles when printing */
+    .company-logo {
+        max-height: 150px;
+        /* Reduce the size of logos when printing */
+        height: auto;
+    }
+
+    .row {
+        page-break-inside: avoid;
+        /* Prevent row breaks during printing */
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Adjust image sizes for smaller devices */
+    .company-logo {
+        max-width: 100%;
+        /* Allow images to take full width on smaller screens */
+    }
+}
+
+/* processing */
+/* Regular Company List */
+#companyList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+#companyList .company {
+    /* border: 1px solid #ddd; */
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    position: relative;
+    /* background-color: white; */
+    /* Ensure background is solid */
+}
+
+#companyList .company-content img {
+    max-width: 100px;
+    /* Normal size for regular list */
+    height: auto;
+    object-fit: contain;
+}
+
+#companyList .company-logo {
+    max-width: 100px;
+    /* Ensure logo size is consistent */
+    height: auto;
+}
+
+#companyList .delete-btn {
+    top: 10px;
+    left: 10px;
+    /* Position appropriately for regular list */
+    margin-left: 0;
+    /* Remove margin-left if not needed */
+}
+
+/* Final Company Section */
+#companiesSection .company {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    position: relative;
+    /* background-color: white; */
+    /* Ensure background is solid */
+}
+
+#companiesSection .company-content img {
+    max-width: 180px;
+    /* Scaled size for final preview */
+    height: auto;
+    object-fit: contain;
+}
+
+#companiesSection .company-logo {
+    max-width: 180px;
+    /* Ensure logo size is consistent */
+    height: auto;
+}
+
+#companiesSection .delete-btn {
+    top: 10px;
+    left: 10px;
+    /* Position appropriately for final list */
+    margin-left: 0;
+    /* Remove margin-left if not needed */
+}
+
+/* Shared Styles */
+.company-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 1.35rem;
+    color: rgb(32, 52, 111);
+    font-weight: bold;
+    margin: 0;
+}
+
+.technologies {
+    margin-top: 10px;
+    /* Remove margin-left if it causes layout issues */
+    margin-left: 0;
+    padding: 10px;
+}
+
+.company-item {
+    text-align: center;
+}
+
+.company-content, .technologies {
+    z-index: 1;
+}

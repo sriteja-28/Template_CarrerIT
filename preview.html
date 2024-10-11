@@ -10,19 +10,58 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .company-list {
+    <!-- <style>
+        /* .company-list {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            /* Four equal columns */
             gap: 10px;
-            /* Add some spacing between items */
-        }
+        } */
 
-        .company {
+        /* .company {
             border: 1px solid #ddd;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        } */
+
+        /* .company img {
+            height: auto;
+            margin-right: 15px;
+            object-fit: contain;
+        } */
+
+        /* .company .title {
+            font-size: 1.35rem;
+            color: rgb(32, 52, 111);
+            font-weight: bold;
+            margin: 0;
+        } */
+
+        /* .company-content {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .technologies {
+            margin-top: 10px;
+            margin-left: 30px;
+        } */
+
+        /* .col-md-12 img {
+            width: 300px !important ;
+        }
+
+        .col-md-6 img {
+            width: 250px !important;
+        } */
+    </style> -->
+    <style>
+        /* #companyList .company:hover, */
+        #companiesSection .company:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -42,27 +81,47 @@
 
 
         <!-- Company List -->
-        <div class="company-list" id="companyList">
-            <!-- Company List will be inserted here -->
+        <!-- <div class="company-list" id="companyList"> -->
+        <!-- Company List will be inserted here -->
+        <!-- </div> -->
+
+        <div id="companiesSection" class="companies row">
+            <!-- Dynamic companies will be inserted here after submission -->
         </div>
     </div>
     <!-- Footer -->
     <div class="footer row">
         <div class="col-4">
-            <p style="text-align: left;"><i class="bi bi-telephone green-icon"></i> Kondalarao Arigela: +919160040789
+            <p style="text-align: left;">
+                <i class="bi bi-telephone green-icon"></i>
+                Kondalarao Arigela: <a href="tel:+919160040789" class="call-link">+91 9160040789</a>
             </p>
-            <p style="text-align: left;"><i class="bi bi-telephone green-icon"></i> Venkat Genikala: +919160096789</p>
+            <p style="text-align: left;">
+                <i class="bi bi-telephone green-icon"></i>
+                Venkat Genikala: <a href="tel:+919160096789" class="call-link">+91 9160096789</a>
+            </p>
         </div>
-        <div class="col-4">
-            <img src="./images/qrcode_location.png" alt="QRcode" width="100px" height="100px">
+        <div class="col-2">
+            <img src="./images/qrcode_location.png" alt="QRcode" width="100px" height="90px">
         </div>
-        <div class="col-4">
+        <div class="col-5">
             <p style="text-align: left;"><i class="bi bi-geo-alt-fill white-icon"></i> Address: HIG 205, 4th & 5th
-                Floor, Roots Academy Building, MRO Office Line, KPHB-Hyd</p>
-            <p style="text-align: left;"><i class="bi bi-envelope-fill white-icon"></i> Email: info@careerit.co.in</p>
-            <p style="text-align: left;"><i class="bi bi-globe white-icon"></i> www.careerit.co.in</p>
+                Floor, Roots Academy Building,
+                MRO Office Line, KPHB-Hyd.</p>
+            <div class="row">
+                <p class="col-6" style="text-align: left;">
+                    <i class="bi bi-envelope-fill white-icon"></i>
+                    Email: <a href="mailto:info@careerit.co.in" class="email-link">info@careerit.co.in</a>
+                </p>
+                <p class="col-6" style="text-align: left;">
+                    <i class="bi bi-globe white-icon"></i>
+                    <a href="https://www.careerit.co.in" class="website-link" target="_blank">www.careerit.co.in</a>
+                </p>
+            </div>
+
         </div>
     </div>
+
 
     <!-- Back Button -->
     <div class="row">
@@ -85,29 +144,149 @@
                 document.getElementById('previewHeader').innerText = headerTitle;
 
                 // Populate company list
-                const companyList = document.getElementById('companyList');
-                companyList.innerHTML = ''; // Clear previous list
+                //const companyList = document.getElementById('companyList');
+                const companiesSection = document.getElementById('companiesSection');
+                // companyList.innerHTML = ''; // Clear previous list
+                companiesSection.innerHTML = ''; // Clear previous list
 
-                companies.forEach(company => {
-                    const companyElement = document.createElement('div');
-                    companyElement.classList.add('company');
+                // Group companies into rows
+                const rows = groupCompaniesIntoRows(companies.length);
+                let currentIndex = 0;
 
-                    companyElement.innerHTML = `
+                rows.forEach(rowCount => {
+                    // Create a new row
+                    const row = document.createElement('div');
+                    row.classList.add('row', 'mb-4'); // Add margin-bottom for spacing between rows
+
+                    for (let i = 0; i < rowCount; i++) {
+                        if (currentIndex >= companies.length) break; // Prevent overflow
+
+                        const company = companies[currentIndex];
+                        let colSize;
+                        let imgStyle;
+
+                        // Determine the column size and image style based on number of companies
+                        if (rowCount >= 4 || companies.length > 12) {
+                            // If 4 companies or more in the row, reduce size dynamically
+                            colSize = 'col-md-3'; // Each company takes 25% width
+                            imgStyle = 'style="width:120px;height:auto;"'; // Smaller image
+                        } else {
+                            switch (rowCount) {
+                                case 1:
+                                    colSize = 'col-md-12';
+                                    imgStyle = 'style="width:180px;height:auto;"';
+                                    break;
+                                case 2:
+                                    colSize = 'col-md-6';
+                                    imgStyle = 'style="width:180px;height:auto;"';
+                                    break;
+                                case 3:
+                                    colSize = 'col-md-4';
+                                    imgStyle = 'style="width:180px;height:auto;"';
+                                    break;
+                            }
+                        }
+
+                        const companyElement = document.createElement('div');
+
+                        companyElement.classList.add(colSize, 'mb-3','company-item', 'sty12');
+                        companyElement.setAttribute("style",`${imgStyle}`);
+
+                        // Center the company if it's the only one in the row
+                        if (rowCount === 1) {
+                            companyElement.classList.add('mx-auto'); // Center horizontally
+                        }
+
+                        companyElement.innerHTML = `
+                    <div class="company">
                         <div class="company-content">
-                            <img src="${company.logo}" alt="${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
-                            <p class="title">${company.name}</p>
+                        ${companies.length <= 2 ? `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:180px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';">
+                         `: `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';">
+                        `}
+                        <p class="title" style='margin-left:10px;'>${company.name}</p>
                         </div>
                         ${company.technologies ? `
-                            <div class="technologies">
-                                <p><strong>Technologies:</strong> ${company.technologies}</p>
-                            </div>
-                        ` : ''}
-                    `;
+                        <div class="technologies">
+                            <p><strong>Technologies:</strong> ${company.technologies}</p>
+                        </div>` : ''}
+                    </div>
+                `;
+                        row.appendChild(companyElement);
+                        currentIndex++;
+                    }
 
-                    companyList.appendChild(companyElement);
+                    // Center the row if it's not full
+                    if (rowCount < 4) {
+                        row.classList.add('justify-content-center');
+                    }
+
+                    // companyList.appendChild(row);
+                    companiesSection.appendChild(row);
                 });
             }
         });
+
+        // Function to group companies into rows based on total number
+        function groupCompaniesIntoRows(total) {
+            const rows = [];
+            let remaining = total;
+
+            while (remaining > 0) {
+                if (remaining === 12) {
+                    rows.push(4, 4, 4); // 12 companies: 3 rows of 4
+                    remaining -= 12;
+                } else if (remaining === 11) {
+                    rows.push(4, 4, 3); // 11 companies: 2 rows of 4, 1 row of 3
+                    remaining -= 11;
+                } else if (remaining === 10) {
+                    rows.push(4, 4, 2); // 10 companies: 2 rows of 4, 1 row of 2
+                    remaining -= 10;
+                } else if (remaining === 9) {
+                    rows.push(3, 3, 3); // 9 companies: 3 rows of 3
+                    remaining -= 9;
+                } else if (remaining === 8) {
+                    // rows.push(4, 4); // 8 companies: 2 rows of 4
+                    rows.push(3, 3, 2); // 8 companies: 3 rows of 3,3,2
+                    remaining -= 8;
+                } else if (remaining === 7) {
+                    // rows.push(4, 3); // 7 companies: 1 row of 4, 1 row of 3
+                    rows.push(3, 2, 2); // 7 companies: 1 row of 4, 1 row of 3
+                    remaining -= 7;
+                } else if (remaining === 6) {
+                    // rows.push(3, 3); // 6 companies: 2 rows of 3
+                    rows.push(2, 2, 2); // 6 companies: 2 rows of 3
+                    remaining -= 6;
+                } else if (remaining === 5) {
+                    // rows.push(3, 2); // 5 companies: 1 row of 3, 1 row of 2
+                    rows.push(2, 1, 2); // 5 companies: 1 row of 3, 1 row of 2
+                    remaining -= 5;
+                } else if (remaining === 4) {
+                    rows.push(2, 2); // 4 companies: 2 rows of 2
+                    remaining -= 4;
+                } else if (remaining === 3) {
+                    rows.push(2, 1); // 3 companies: 1 row of 2, 1 row of 1
+                    remaining -= 3;
+                } else if (remaining === 2) {
+                    rows.push(2); // 2 companies: 1 row of 2
+                    rows.push(1,1); 
+                    remaining -= 2;
+                } else if (remaining === 1) {
+                    rows.push(1); // 1 company: 1 row of 1
+                    remaining -= 1;
+                } else {
+                    // Handle cases with more than 12 companies
+                    rows.push(4); // 4 companies per row for more than 12 companies
+                    remaining -= 4;
+                }
+            }
+
+            return rows;
+        }
+
+
+
+        // processing rearrangement logic 
+
     </script>
 </body>
 

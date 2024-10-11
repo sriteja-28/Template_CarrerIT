@@ -166,7 +166,9 @@ function renderCompanyList() {
         companyElement.innerHTML = `
             <div class="company">
                 <div class="company-content">
-                    <img src="${company.logo}" alt="${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
+                    <img src="${company.logo}" alt=Logo of ${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
+                  
+
                     <p class="title">${company.name}</p>
                 </div>
                 ${company.technologies ? `
@@ -175,7 +177,8 @@ function renderCompanyList() {
                     </div>
                 ` : ''}
                 <!-- Delete button in the top-left corner -->
-                <button class="btn btn-danger delete-btn" onclick="deleteCompany(${index})">X</button>
+                <button class="btn btn-danger delete-btn" onclick="deleteCompany(${index})" aria-label="Delete ${company.name}">X</button>
+
             </div>
         `;
         companyList.appendChild(companyElement);
@@ -286,7 +289,7 @@ document.getElementById('previewBtn').addEventListener('click', function () {
 });
 
 
-// Submit and save to IndexedDB
+//! Submit and save to IndexedDB -done
 document.getElementById('submitFormBtn').addEventListener('click', function () {
     if (!isHeaderTitleSubmitted) {
         const headerTitle = document.getElementById('headerTitle').value.trim();
@@ -302,32 +305,152 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
 
         document.getElementById('formSection').style.display = 'none';
         const companiesSection = document.getElementById('companiesSection');
-        companiesSection.innerHTML = '';
+        companiesSection.innerHTML = ''; // Clear existing content
 
-        companies.forEach(company => {
-            const companyElement = document.createElement('div');
-            companyElement.classList.add('col-md-3');
+        const rows = groupCompaniesIntoRows(companies.length);
+        let currentIndex = 0;
 
-            companyElement.innerHTML = `
-                <div class="company">
-                    <div class="company-content">
-                        <img src="${company.logo}" alt="${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
-                        <p class="title">${company.name}</p>
+        rows.forEach(rowCount => {
+            // Create a new row
+            const row = document.createElement('div');
+            row.classList.add('row', 'mb-4'); // Add margin-bottom for spacing between rows
+
+            for (let i = 0; i < rowCount; i++) {
+                if (currentIndex >= companies.length) break; // Prevent overflow
+
+                const company = companies[currentIndex];
+
+                // Declare colSize and imgStyle outside of the inner block
+                let colSize;
+                let imgStyle;
+
+                // Determine the column size and image style based on number of companies
+                if (rowCount >= 4 || companies.length > 12) {
+                    // If 4 companies or more in the row, reduce size dynamically
+                    colSize = 'col-md-3'; // Each company takes 25% width
+                    imgStyle = 'style="width:120px !important;height:auto;"'; // Smaller image
+                } else {
+                    switch (rowCount) {
+                        case 1:
+                            colSize = 'col-md-12';
+                            imgStyle = 'style="width:180px;height:auto;"';
+                            break;
+                        case 2:
+                            colSize = 'col-md-6';
+                            imgStyle = 'style="width:180px;height:auto;"';
+                            break;
+                        case 3:
+                            colSize = 'col-md-4';
+                            imgStyle = 'style="width:180px;height:auto;"';
+                            break;
+                    }
+                }
+
+                const companyElement = document.createElement('div');
+                companyElement.classList.add(colSize, 'mb-3', 'company-item', 'sty12');
+                // companyElement.setAttribute("style","imgStyle");
+                companyElement.setAttribute("style",`${imgStyle}`);
+
+                // Center the company if it's the only one in the row
+                if (rowCount === 1) {
+                    companyElement.classList.add('mx-auto'); // Center horizontally
+                }
+
+                companyElement.innerHTML = `
+                    <div class="company">
+                        <div class="company-content">
+                        ${companies.length <= 2 ? `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:180px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';">
+                         `: `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';">
+                        `}  <p class="title" style='margin-left:10px;'>${company.name}</p>
+                        </div>
+                        ${company.technologies ? `
+                        <div class="technologies">
+                            <p><strong>Technologies:</strong> ${company.technologies}</p>
+                        </div>` : ''}
                     </div>
-                    ${company.technologies ? `
-                    <div class="technologies">
-                        <p><strong>Technologies:</strong> ${company.technologies}</p>
-                    </div>
-                    ` : ''}
-                </div>
-            `;
+                `;
+                row.appendChild(companyElement);
+                currentIndex++;
+            }
 
-            companiesSection.appendChild(companyElement);
+            // Center the row if it's not full
+            if (rowCount < 4) {
+                row.classList.add(`justify-content-center`);
+            }
+
+            companiesSection.appendChild(row);
         });
+
     } else {
         alert("No companies have been added yet. Please add at least one company before submitting.");
     }
 });
+
+
+
+// Function to group companies into rows based on total number
+function groupCompaniesIntoRows(total) {
+    const rows = [];
+    let remaining = total;
+
+    while (remaining > 0) {
+        if (remaining === 12) {
+            rows.push(4, 4, 4); // 12 companies: 3 rows of 4
+            remaining -= 12;
+        } else if (remaining === 11) {
+            rows.push(4, 4, 3); // 11 companies: 2 rows of 4, 1 row of 3
+            remaining -= 11;
+        } else if (remaining === 10) {
+            rows.push(4, 4, 2); // 10 companies: 2 rows of 4, 1 row of 2
+            remaining -= 10;
+        } else if (remaining === 9) {
+            rows.push(3, 3, 3); // 9 companies: 3 rows of 3
+            remaining -= 9;
+        } else if (remaining === 8) {
+            // rows.push(4, 4); // 8 companies: 2 rows of 4
+            rows.push(3,3,2); // 8 companies: 3 rows of 3,3,2
+            remaining -= 8;
+        } else if (remaining === 7) {
+            // rows.push(4, 3); // 7 companies: 1 row of 4, 1 row of 3
+             rows.push(3,2,2); // 7 companies: 1 row of 4, 1 row of 3
+            remaining -= 7;
+        } else if (remaining === 6) {
+            // rows.push(3, 3); // 6 companies: 2 rows of 3
+            rows.push(2,2,2); // 6 companies: 2 rows of 3
+            remaining -= 6;
+        } else if (remaining === 5) {
+            // rows.push(3, 2); // 5 companies: 1 row of 3, 1 row of 2
+            rows.push(2,1,2); // 5 companies: 1 row of 3, 1 row of 2
+            remaining -= 5;
+        } else if (remaining === 4) {
+            rows.push(2, 2); // 4 companies: 2 rows of 2
+            remaining -= 4;
+        } else if (remaining === 3) {
+            rows.push(2, 1); // 3 companies: 1 row of 2, 1 row of 1
+            remaining -= 3;
+        } else if (remaining === 2) {
+           // rows.push(2); // 2 companies: 1 row of 2
+            rows.push(1,1); 
+            remaining -= 2;
+        } else if (remaining === 1) {
+            rows.push(1); // 1 company: 1 row of 1
+            remaining -= 1;
+        } else {
+            // Handle cases with more than 12 companies
+            rows.push(4); // 4 companies per row for more than 12 companies
+            remaining -= 4;
+        }
+    }
+
+    return rows;
+}
+
+
+
+
+
+//!end of processing
+//!end of done
 
 // Handle drag and drop
 function allowDrop(ev) {
