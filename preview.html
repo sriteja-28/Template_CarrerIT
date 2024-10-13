@@ -198,7 +198,6 @@
                         const companyElement = document.createElement('div');
 
                         companyElement.classList.add(colSize, 'mb-3', 'company-item', 'sty12');
-                        companyElement.setAttribute("style", `${imgStyle}`);
 
                         // Center the company if it's the only one in the row
                         if (rowCount === 1) {
@@ -209,7 +208,7 @@
                     <div class="company">
                         <div class="company-content">
                         ${companies.length <= 2 ? `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:180px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';">
-                         `: `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';">
+                         `: `<img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';">
                         `}
                         <p class="title" style='margin-left:10px;'>${company.name}</p>
                         </div>
