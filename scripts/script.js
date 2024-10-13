@@ -32,13 +32,26 @@ function openDB(callback) {
 }
 
 // Function to save header title to IndexedDB
-function saveHeaderTitleToDB(headerTitle, id = Date.now()) {
+function saveHeaderTitleToDB(headerTitle) {
     openDB(function (db) {
         const transaction = db.transaction(['titledb'], 'readwrite');
         const titleStore = transaction.objectStore('titledb');
 
-        titleStore.put({ id: id, title: headerTitle }).onsuccess = function () {
-            console.log("Header title saved successfully.");
+        // Check if the title exists and update it
+        const getRequest = titleStore.get(1); // Assuming 1 is the key for the title
+
+        getRequest.onsuccess = function () {
+            if (getRequest.result) {
+                // Update the existing record
+                titleStore.put({ id: 1, title: headerTitle }).onsuccess = function () {
+                    console.log("Header title updated successfully.");
+                };
+            } else {
+                // Create a new record
+                titleStore.put({ id: 1, title: headerTitle }).onsuccess = function () {
+                    console.log("Header title saved successfully.");
+                };
+            }
         };
 
         transaction.oncomplete = function () {
@@ -50,6 +63,7 @@ function saveHeaderTitleToDB(headerTitle, id = Date.now()) {
         };
     });
 }
+
 
 // Function to save companies and header title to IndexedDB
 function saveDataToDB(headerTitle, companies) {
@@ -80,16 +94,16 @@ function saveDataToDB(headerTitle, companies) {
 }
 
 // Function to get the most recent header title from IndexedDB
+
 function getHeaderTitleFromDB(callback) {
     openDB(function (db) {
         const transaction = db.transaction(['titledb'], 'readonly');
         const titleStore = transaction.objectStore('titledb');
-        const getRequest = titleStore.openCursor(null, 'prev'); // Get the most recent header title
+        const getRequest = titleStore.get(1); // Get the title with id 1
 
         getRequest.onsuccess = function (event) {
-            const cursor = event.target.result;
-            if (cursor) {
-                callback(cursor.value.title);
+            if (getRequest.result) {
+                callback(getRequest.result.title);
             } else {
                 callback(''); // No header title found
             }
@@ -101,6 +115,7 @@ function getHeaderTitleFromDB(callback) {
         };
     });
 }
+
 
 // Function to get saved companies from IndexedDB
 function getCompaniesFromDB(callback) {
@@ -153,6 +168,7 @@ document.getElementById('editBtn').addEventListener('click', function () {
 let companies = [];
 let isHeaderTitleSubmitted = false;
 
+
 // Render the list of companies
 function renderCompanyList() {
     const companyList = document.getElementById('companyList');
@@ -160,15 +176,12 @@ function renderCompanyList() {
 
     companies.forEach((company, index) => {
         const companyElement = document.createElement('div');
-        companyElement.classList.add('col-md-3'); // Each company takes 1/4 of a row
-        companyElement.classList.add('position-relative');
+        companyElement.classList.add('col-md-3', 'position-relative'); // Each company takes 1/4 of a row
 
         companyElement.innerHTML = `
             <div class="company">
                 <div class="company-content">
-                    <img src="${company.logo}" alt=Logo of ${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
-                  
-
+                    <img src="${company.logo}" alt="Logo of ${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
                     <p class="title">${company.name}</p>
                 </div>
                 ${company.technologies ? `
@@ -176,14 +189,25 @@ function renderCompanyList() {
                         <p><strong>Technologies:</strong> ${company.technologies}</p>
                     </div>
                 ` : ''}
-                <!-- Delete button in the top-left corner -->
                 <button class="btn btn-danger delete-btn" onclick="deleteCompany(${index})" aria-label="Delete ${company.name}">X</button>
-
             </div>
         `;
+        companyElement.setAttribute('data-index', index); // Optional: Store the index for later reference
         companyList.appendChild(companyElement);
     });
+
+    // Initialize Sortable.js
+    new Sortable(companyList, {
+        animation: 150,
+        onEnd: function (event) {
+            // Update the companies array based on the new order
+            const movedItem = companies.splice(event.oldIndex, 1)[0]; // Remove the item from the old position
+            companies.splice(event.newIndex, 0, movedItem); // Insert it at the new position
+            renderCompanyList(); // Re-render the company list to reflect the new order
+        }
+    });
 }
+
 
 // Handle deleting a company
 function deleteCompany(index) {
@@ -446,10 +470,6 @@ function groupCompaniesIntoRows(total) {
 }
 
 
-
-
-
-//!end of processing
 //!end of done
 
 // Handle drag and drop

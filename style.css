@@ -123,7 +123,6 @@ body {
 
 
 
-
 .call-link,
 .email-link,
 .website-link {
@@ -471,4 +470,21 @@ body {
 
 .company-content, .technologies {
     z-index: 1;
+}
+
+
+/* processing */
+.company {
+    cursor: grab; /* Change cursor to indicate item can be grabbed */
+}
+
+/* Change cursor to 'grabbing' when the item is being dragged */
+.company:active {
+    cursor: grabbing; /* Change cursor to indicate item is being grabbed */
+}
+
+/* Optional: Add a style for when the item is being dragged */
+.dragging {
+    opacity: 0.5; /* Make the item slightly transparent while dragging */
+    border: 2px dashed #007bff; /* Add a dashed border to indicate dragging */
 }

@@ -140,7 +140,15 @@
             if (event.data.type === 'populatePreview') {
                 const { headerTitle, companies } = event.data;
 
+
+
+                // Debugging output
+                console.log('Received Header Title:', headerTitle);
+                console.log('Received Companies:', companies);
+
+
                 // Set header title
+                document.getElementById('previewHeader').innerText = '';
                 document.getElementById('previewHeader').innerText = headerTitle;
 
                 // Populate company list
@@ -189,8 +197,8 @@
 
                         const companyElement = document.createElement('div');
 
-                        companyElement.classList.add(colSize, 'mb-3','company-item', 'sty12');
-                        companyElement.setAttribute("style",`${imgStyle}`);
+                        companyElement.classList.add(colSize, 'mb-3', 'company-item', 'sty12');
+                        companyElement.setAttribute("style", `${imgStyle}`);
 
                         // Center the company if it's the only one in the row
                         if (rowCount === 1) {
@@ -223,6 +231,7 @@
                     // companyList.appendChild(row);
                     companiesSection.appendChild(row);
                 });
+
             }
         });
 
@@ -267,8 +276,8 @@
                     rows.push(2, 1); // 3 companies: 1 row of 2, 1 row of 1
                     remaining -= 3;
                 } else if (remaining === 2) {
-                    rows.push(2); // 2 companies: 1 row of 2
-                    rows.push(1,1); 
+                    // rows.push(2); // 2 companies: 1 row of 2
+                    rows.push(1, 1);
                     remaining -= 2;
                 } else if (remaining === 1) {
                     rows.push(1); // 1 company: 1 row of 1
