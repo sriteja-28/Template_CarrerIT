@@ -164,15 +164,70 @@ document.getElementById('editBtn').addEventListener('click', function () {
     document.getElementById('editBtn').style.display = 'none';
 });
 
-// Initialize empty array for companies
+// // Initialize empty array for companies
+// let companies = [];
+// let isHeaderTitleSubmitted = false;
+
+
+// // Render the list of companies
+// function renderCompanyList() {
+//     const companyList = document.getElementById('companyList');
+//     companyList.innerHTML = ''; // Clear previous list
+
+//     companies.forEach((company, index) => {
+//         const companyElement = document.createElement('div');
+//         companyElement.classList.add('col-md-3', 'position-relative'); // Each company takes 1/4 of a row
+
+//         companyElement.innerHTML = `
+//             <div class="company">
+//                 <div class="company-content">
+//                     <img src="${company.logo}" alt="Logo of ${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
+//                     <p class="title">${company.name}</p>
+//                 </div>
+//                 ${company.technologies ? `
+//                     <div class="technologies">
+//                         <p><strong>Technologies:</strong> ${company.technologies}</p>
+//                     </div>
+//                 ` : ''}
+//                 <button class="btn btn-danger delete-btn" onclick="deleteCompany(${index})" aria-label="Delete ${company.name}">X</button>
+//             </div>
+//         `;
+//         companyElement.setAttribute('data-index', index); // Optional: Store the index for later reference
+//         companyList.appendChild(companyElement);
+//     });
+
+//     // Initialize Sortable.js
+//     new Sortable(companyList, {
+//         animation: 150,
+//         onEnd: function (event) {
+//             // Update the companies array based on the new order
+//             const movedItem = companies.splice(event.oldIndex, 1)[0]; // Remove the item from the old position
+//             companies.splice(event.newIndex, 0, movedItem); // Insert it at the new position
+//             renderCompanyList(); // Re-render the company list to reflect the new order
+//         }
+//     });
+// }
+
+
+// // Handle deleting a company
+// function deleteCompany(index) {
+//     if (confirm('Are you sure you want to delete this company?')) {
+//         companies.splice(index, 1); // Remove company from the array
+//         renderCompanyList(); // Re-render the company list
+//     }
+// }
+
+//!Processing the rendering
+
+//!working almost
 let companies = [];
-let isHeaderTitleSubmitted = false;
+let selectedCompanyIndex = null;
+let clickCount = 0;  // For tracking triple click
 
-
-// Render the list of companies
+// Function to render the list of companies
 function renderCompanyList() {
     const companyList = document.getElementById('companyList');
-    companyList.innerHTML = ''; // Clear previous list
+    companyList.innerHTML = ''; // Clear the existing list
 
     companies.forEach((company, index) => {
         const companyElement = document.createElement('div');
@@ -181,21 +236,25 @@ function renderCompanyList() {
         companyElement.innerHTML = `
             <div class="company">
                 <div class="company-content">
-                    <img src="${company.logo}" alt="Logo of ${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
+                    <img id="logoPreview-${index}" src="${company.logo}" alt="Logo of ${company.name}" onerror="this.onerror=null; this.src='default-image.png';">
                     <p class="title">${company.name}</p>
                 </div>
                 ${company.technologies ? `
-                    <div class="technologies">
-                        <p><strong>Technologies:</strong> ${company.technologies}</p>
-                    </div>
-                ` : ''}
-                <button class="btn btn-danger delete-btn" onclick="deleteCompany(${index})" aria-label="Delete ${company.name}">X</button>
+                        <div class="technologies">
+                            <p><strong>Technologies:</strong> ${company.technologies}</p>
+                        </div>` : `<div class="technologies" style="visibility: hidden;">
+                            <p><strong>Technologies:</strong> ${company.technologies}</p>
+                        </div>`}
+                <button class="btn btn-danger delete-btn" onclick="deleteCompany(${index})">X</button>
             </div>
         `;
-        companyElement.setAttribute('data-index', index); // Optional: Store the index for later reference
         companyList.appendChild(companyElement);
-    });
+        companyElement.setAttribute('data-index', index);
 
+        // Add triple-click event to allow editing the company
+        companyElement.addEventListener('click', () => handleDoubleClick(company, index));
+
+    });
     // Initialize Sortable.js
     new Sortable(companyList, {
         animation: 150,
@@ -208,6 +267,148 @@ function renderCompanyList() {
     });
 }
 
+// Function to handle image upload and get a data URL
+
+function uploadImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    if (file) {
+        reader.readAsDataURL(file); // Read file as data URL
+
+        reader.onload = function (e) {
+            if (selectedCompanyIndex !== null) {
+                const logoPreview = document.getElementById(`logoPreview-${selectedCompanyIndex}`);
+
+                // Check if the logoPreview element exists before setting its src
+                if (logoPreview) {
+                    logoPreview.src = e.target.result; // Set the logo preview to the data URL
+                } else {
+                    console.error(`Logo preview element for company ${selectedCompanyIndex} not found!`);
+                }
+            } else {
+                console.error('No company is selected for logo upload.');
+            }
+        };
+    } else {
+        console.error('No file selected.');
+    }
+}
+
+
+
+// Function to populate the form fields for editing
+
+function populateFormFields(company, index) {
+    document.getElementById('companyName').value = company.name;
+    document.getElementById('technologies').value = company.technologies;
+
+    selectedCompanyIndex = index; // Track the index of the company being edited
+
+    // Get the logo preview element
+    const logoPreview = document.getElementById(`logoPreview-${index}`);
+
+    // Ensure the logo exists and is a valid URL or data URL
+    if (company.logo && company.logo.startsWith('data:image/') || company.logo.startsWith('http')) {
+        logoPreview.src = company.logo; // Show the existing logo
+    } else {
+        logoPreview.src = './images/draganddrop.webp'; // Default if no valid logo
+    }
+
+    // Show update button, hide add button
+    document.getElementById('addCompanyBtn').style.display = 'none';
+    document.getElementById('updateCompanyBtn').style.display = 'block';
+}
+
+
+
+
+
+// Function to handle form submission for adding/updating companies
+function handleFormSubmit(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const name = document.getElementById('companyName').value;
+    const technologies = document.getElementById('technologies').value;
+
+    // Check if a new logo has been uploaded
+    const logoPreview = document.getElementById(`logoPreview-${selectedCompanyIndex}`);
+    const logo = logoPreview ? logoPreview.src : './images/draganddrop.webp'; // Use the data URL from the preview as the logo
+
+    if (selectedCompanyIndex !== null) {
+        // Edit existing company
+        companies[selectedCompanyIndex] = { name, logo, technologies };
+        selectedCompanyIndex = null;
+    } else {
+        // Add new company
+        companies.push({ name, logo, technologies });
+    }
+
+    document.getElementById('companyForm').reset(); // Clear the form
+    logoPreview.src = './images/draganddrop.webp'; // Reset logo preview
+
+    // Switch buttons back to "Add Company"
+    document.getElementById('addCompanyBtn').style.display = 'block';
+    document.getElementById('updateCompanyBtn').style.display = 'none';
+
+    renderCompanyList(); // Re-render the company list
+}
+
+// Function to handle updating company
+function handleCompanyUpdate() {
+    const name = document.getElementById('companyName').value;
+    const technologies = document.getElementById('technologies').value;
+
+    // Use the existing logo or the updated one if available
+    const logoPreview = document.getElementById(`logoPreview-${selectedCompanyIndex}`);
+    const logo = logoPreview ? logoPreview.src : './images/draganddrop.webp'; // Default if not found
+
+    if (!name || !logoPreview) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    // Update company details
+    companies[selectedCompanyIndex] = { name, logo, technologies };
+
+    // Reset form and buttons
+    document.getElementById('companyForm').reset();
+    logoPreview.src = './images/draganddrop.webp'; // Reset logo preview
+    document.getElementById('addCompanyBtn').style.display = 'block';
+    document.getElementById('updateCompanyBtn').style.display = 'none';
+
+    selectedCompanyIndex = null;
+    renderCompanyList(); // Re-render the company list
+}
+
+
+
+function handleDoubleClick(company, index) {
+    clickCount++; // Increment click count
+
+    if (clickCount === 2) {
+        populateFormFields(company, index); // Populate the form for editing
+        clickCount = 0; // Reset click count
+    }
+
+    // Reset click count after some delay to detect triple click
+    setTimeout(() => {
+        // Reset click count if no further clicks are detected
+        clickCount = 0;
+    }, 1000);
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Your initialization code like event listeners, form handling, etc.
+    document.getElementById('companyForm').addEventListener('submit', handleFormSubmit);
+    document.getElementById('updateCompanyBtn').addEventListener('click', handleCompanyUpdate);
+
+    renderCompanyList();  // Initial render of company list
+});
+
 
 // Handle deleting a company
 function deleteCompany(index) {
@@ -216,6 +417,12 @@ function deleteCompany(index) {
         renderCompanyList(); // Re-render the company list
     }
 }
+
+
+
+
+
+//!end of redering
 
 // Handle adding a new company
 document.getElementById('addCompanyBtn').addEventListener('click', function () {
@@ -381,14 +588,16 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
                 companyElement.innerHTML = `
                     <div class="company">
                         <div class="company-content">
-                        ${companies.length <= 2 ? `<img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:180px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';">
-                         `: `<img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';">
+                        ${companies.length <= 2 ? `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:180px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
+                         `: `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';"></div>
                         `}  <p class="title" style='margin-left:10px;'>${company.name}</p>
                         </div>
                         ${company.technologies ? `
                         <div class="technologies">
                             <p><strong>Technologies:</strong> ${company.technologies}</p>
-                        </div>` : ''}
+                        </div>` : `<div class="technologies" style="visibility: hidden;">
+                            <p><strong>Technologies:</strong> ${company.technologies}</p>
+                        </div>`}
                     </div>
                 `;
                 row.appendChild(companyElement);
@@ -430,19 +639,19 @@ function groupCompaniesIntoRows(total) {
             remaining -= 9;
         } else if (remaining === 8) {
             // rows.push(4, 4); // 8 companies: 2 rows of 4
-            rows.push(3,3,2); // 8 companies: 3 rows of 3,3,2
+            rows.push(3, 3, 2); // 8 companies: 3 rows of 3,3,2
             remaining -= 8;
         } else if (remaining === 7) {
             // rows.push(4, 3); // 7 companies: 1 row of 4, 1 row of 3
-             rows.push(3,2,2); // 7 companies: 1 row of 4, 1 row of 3
+            rows.push(3, 2, 2); // 7 companies: 1 row of 4, 1 row of 3
             remaining -= 7;
         } else if (remaining === 6) {
             // rows.push(3, 3); // 6 companies: 2 rows of 3
-            rows.push(2,2,2); // 6 companies: 2 rows of 3
+            rows.push(2, 2, 2); // 6 companies: 2 rows of 3
             remaining -= 6;
         } else if (remaining === 5) {
             // rows.push(3, 2); // 5 companies: 1 row of 3, 1 row of 2
-            rows.push(2,1,2); // 5 companies: 1 row of 3, 1 row of 2
+            rows.push(2, 1, 2); // 5 companies: 1 row of 3, 1 row of 2
             remaining -= 5;
         } else if (remaining === 4) {
             rows.push(2, 2); // 4 companies: 2 rows of 2
@@ -451,8 +660,8 @@ function groupCompaniesIntoRows(total) {
             rows.push(2, 1); // 3 companies: 1 row of 2, 1 row of 1
             remaining -= 3;
         } else if (remaining === 2) {
-           // rows.push(2); // 2 companies: 1 row of 2
-            rows.push(1,1); 
+            // rows.push(2); // 2 companies: 1 row of 2
+            rows.push(1, 1);
             remaining -= 2;
         } else if (remaining === 1) {
             rows.push(1); // 1 company: 1 row of 1
@@ -499,10 +708,11 @@ function extractImageSrcFromHTML(html) {
 }
 
 // Upload image from the file input
-function uploadImage(event) {
-    const files = event.target.files;
-    handleFiles(files);
-}
+// function uploadImage(event) {
+//     const files = event.target.files;
+//     handleFiles(files);
+// }
+
 
 // Handle files (dragged or uploaded)
 function handleFiles(files) {

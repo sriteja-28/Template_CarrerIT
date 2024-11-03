@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #imageContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 10%; /* Set the width as needed */
+            max-width: 600px; /* Limit the maximum width */
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 120px; /* Adjust the size as needed */
+            height: 120px; /* Adjust the size as needed */
+            overflow: hidden; /* Hide overflow */
+            border: 1px solid #ccc; /* Optional: add a border around the image */
+            display: flex; /* Center the image */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            background-color: white; /* Ensure a white background */
+        }
+
+        .image-wrapper img {
+            max-width: 100%; /* Make sure the image fits the width of the wrapper */
+            max-height: 100%; /* Make sure the image fits the height of the wrapper */
+            object-fit: contain; /* Maintain aspect ratio */
+            display: block; /* Ensure block layout */
+        }
+
+        .company {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .company-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .title {
+            margin-left: 10px;
+        }
+
+        .technologies {
+            margin-top: 5px;
+        }
+        
+        /* Fallback for missing images */
+        .company-content img {
+            width: 180px; /* Fixed width */
+            height: auto; /* Maintain aspect ratio */
+            background-color: white; /* White background for missing images */
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Images</h1>
+    <input type="file" id="imageUpload" multiple accept="image/*">
+    <div id="imageContainer"></div>
+
+    <div id="companiesContainer"></div>
+
+    <script>
+        const companies = [
+            { name: 'Company A', logo: './images/careerit.png', technologies: 'HTML, CSS' },
+            { name: 'Company B', logo: "./images/whtebck.jpeg", technologies: 'JavaScript, Node.js' }
+        ];
+
+        function displayCompany(company) {
+            const companyElement = document.createElement('div');
+            companyElement.className = 'company';
+
+            companyElement.innerHTML = `
+                <div class="company-content">
+                    <img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';">
+                    <p class="title">${company.name}</p>
+                </div>
+                ${company.technologies ? `
+                <div class="technologies">
+                    <p><strong>Technologies:</strong> ${company.technologies}</p>
+                </div>` : ''}
+            `;
+            document.getElementById('companiesContainer').appendChild(companyElement);
+        }
+
+        companies.forEach(displayCompany);
+
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const imageContainer = document.getElementById('imageContainer');
+
+            // Clear the previous images
+            imageContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length && i < 5; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'image-wrapper';
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Uploaded Image';
+
+                    imgWrapper.appendChild(img);
+                    imageContainer.appendChild(imgWrapper);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

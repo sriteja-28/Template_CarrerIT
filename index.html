@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Include Sortable.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 
     <script src="./scripts/script.js" defer></script>
 </head>
@@ -66,18 +66,15 @@
                         <!-- <label for="companyLogo" class="form-label">Upload Company Logo</label>
                         <input type="file" class="form-control" id="companyLogo" accept="image/*" required> -->
 
-
-
                         <div id="dropzone" onclick="document.getElementById('companyLogo').click()" ondrop="drop(event)"
                             ondragover="allowDrop(event)">
-                            <img src="./images/draganddrop.webp" alt="" width="100%" height="100%">
+                            <img id="logoPreview" src="./images/draganddrop.webp" alt="Logo preview" width="100%"
+                                height="100%">
                         </div>
 
                         <!-- Hidden file input -->
                         <input type="file" class="form-control d-none" id="companyLogo" accept="image/*" multiple
                             onchange="uploadImage(event)">
-
-
 
 
                     </div>
@@ -87,6 +84,8 @@
                             required>
                     </div>
                     <button type="button" class="btn btn-primary" id="addCompanyBtn">Add Company</button>
+                    <button type="button" id="updateCompanyBtn" style="display:none;">Update Company</button>
+
                 </form>
 
                 <div class="mt-3">

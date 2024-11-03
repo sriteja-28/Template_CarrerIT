@@ -69,7 +69,7 @@ body {
 }
 
 /* Print Specific Styles */
- @media print {
+@media print {
     .header {
         position: relative;
         height: 90px;
@@ -93,7 +93,7 @@ body {
         padding: 6px;
         text-align: center;
         max-width: calc(100% - 100px);
-        transform: translateX(20%); 
+        transform: translateX(20%);
         /* Prevent text overlap with image */
     }
 
@@ -118,7 +118,7 @@ body {
     .row {
         page-break-inside: avoid;
     }
-} 
+}
 
 
 
@@ -290,7 +290,7 @@ body {
     .hTxt {
         font-size: 20px;
         margin-right: 0;
-       
+
     }
 
     #companyList {
@@ -342,6 +342,7 @@ body {
 /* rearrangement logic */
 
 .sty12 {
+    
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -413,7 +414,8 @@ body {
 
 /* Final Company Section */
 #companiesSection .company {
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
+    border: 2px solid #3d91eb;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -468,23 +470,50 @@ body {
     text-align: center;
 }
 
-.company-content, .technologies {
+.company-content,
+.technologies {
     z-index: 1;
 }
 
 
 /* processing */
 .company {
-    cursor: grab; /* Change cursor to indicate item can be grabbed */
+    cursor: grab;
+    /* Change cursor to indicate item can be grabbed */
 }
 
 /* Change cursor to 'grabbing' when the item is being dragged */
 .company:active {
-    cursor: grabbing; /* Change cursor to indicate item is being grabbed */
+    cursor: grabbing;
+    /* Change cursor to indicate item is being grabbed */
 }
 
 /* Optional: Add a style for when the item is being dragged */
 .dragging {
-    opacity: 0.5; /* Make the item slightly transparent while dragging */
-    border: 2px dashed #007bff; /* Add a dashed border to indicate dragging */
+    opacity: 0.5;
+    /* Make the item slightly transparent while dragging */
+    border: 2px dashed #007bff;
+    /* Add a dashed border to indicate dragging */
+}
+
+/* Container for the image */
+.company-logo-container {
+    width: 150px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+ 
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Image styling to make sure it fits within container */
+.company-logo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    background-color: #fff;
 }
