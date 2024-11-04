@@ -287,7 +287,7 @@ function uploadImage(event) {
                     console.error(`Logo preview element for company ${selectedCompanyIndex} not found!`);
                 }
             } else {
-                console.error('No company is selected for logo upload.');
+               // console.error('No company is selected for logo upload.');
             }
         };
     } else {
@@ -564,15 +564,15 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
                     switch (rowCount) {
                         case 1:
                             colSize = 'col-md-12';
-                            imgStyle = 'style="width:180px;height:auto;"';
+                            imgStyle = 'style="width:150px;height:auto;"';
                             break;
                         case 2:
                             colSize = 'col-md-6';
-                            imgStyle = 'style="width:180px;height:auto;"';
+                            imgStyle = 'style="width:150px;height:auto;"';
                             break;
                         case 3:
                             colSize = 'col-md-4';
-                            imgStyle = 'style="width:180px;height:auto;"';
+                            imgStyle = 'style="width:150px;height:auto;"';
                             break;
                     }
                 }
@@ -588,7 +588,7 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
                 companyElement.innerHTML = `
                     <div class="company">
                         <div class="company-content">
-                        ${companies.length <= 2 ? `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:180px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
+                        ${companies.length <= 2 ? `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:150px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
                          `: `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';"></div>
                         `}  <p class="title" style='margin-left:10px;'>${company.name}</p>
                         </div>

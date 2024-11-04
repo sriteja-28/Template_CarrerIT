@@ -111,7 +111,7 @@ body {
 
     #companiesSection .company-logo,
     #companyList .company-logo {
-        max-height: 150px;
+        max-height: 100px;
         height: auto;
     }
 
@@ -353,7 +353,7 @@ body {
 
     /* Adjust styles when printing */
     .company-logo {
-        max-height: 150px;
+        max-height: 100px;
         /* Reduce the size of logos when printing */
         height: auto;
     }
@@ -514,6 +514,6 @@ body {
 .company-logo-container img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     background-color: #fff;
 }
