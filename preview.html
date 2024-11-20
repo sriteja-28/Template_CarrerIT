@@ -10,54 +10,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- <style>
-        /* .company-list {
-            display: grid;
-            gap: 10px;
-        } */
 
-        /* .company {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            position: relative;
-        } */
-
-        /* .company img {
-            height: auto;
-            margin-right: 15px;
-            object-fit: contain;
-        } */
-
-        /* .company .title {
-            font-size: 1.35rem;
-            color: rgb(32, 52, 111);
-            font-weight: bold;
-            margin: 0;
-        } */
-
-        /* .company-content {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .technologies {
-            margin-top: 10px;
-            margin-left: 30px;
-        } */
-
-        /* .col-md-12 img {
-            width: 300px !important ;
-        }
-
-        .col-md-6 img {
-            width: 250px !important;
-        } */
-    </style> -->
     <style>
-        /* #companyList .company:hover, */
         #companiesSection .company:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
@@ -132,53 +86,35 @@
     </div>
 
     <script>
-        // Back Button functionality to close preview and return to form
         document.getElementById('backBtn').addEventListener('click', function () {
-            window.close(); // Close the preview window
+            window.close();
         });
 
         window.addEventListener('message', function (event) {
             if (event.data.type === 'populatePreview') {
                 const { headerTitle, companies } = event.data;
-
-
-
-                // Debugging output
                 console.log('Received Header Title:', headerTitle);
                 console.log('Received Companies:', companies);
-
-
-                // Set header title
                 document.getElementById('previewHeader').innerText = '';
                 document.getElementById('previewHeader').innerText = headerTitle;
-
-                // Populate company list
-                //const companyList = document.getElementById('companyList');
                 const companiesSection = document.getElementById('companiesSection');
-                // companyList.innerHTML = ''; // Clear previous list
-                companiesSection.innerHTML = ''; // Clear previous list
-
-                // Group companies into rows
+                companiesSection.innerHTML = '';
                 const rows = groupCompaniesIntoRows(companies.length);
                 let currentIndex = 0;
 
                 rows.forEach(rowCount => {
-                    // Create a new row
                     const row = document.createElement('div');
-                    row.classList.add('row', 'mb-4'); // Add margin-bottom for spacing between rows
+                    row.classList.add('row', 'mb-4');
 
                     for (let i = 0; i < rowCount; i++) {
-                        if (currentIndex >= companies.length) break; // Prevent overflow
+                        if (currentIndex >= companies.length) break;
 
                         const company = companies[currentIndex];
                         let colSize;
                         let imgStyle;
-
-                        // Determine the column size and image style based on number of companies
                         if (rowCount >= 4 || companies.length > 12) {
-                            // If 4 companies or more in the row, reduce size dynamically
-                            colSize = 'col-md-3'; // Each company takes 25% width
-                            imgStyle = 'style="width:120px;height:auto;"'; // Smaller image
+                            colSize = 'col-md-3'; 
+                            imgStyle = 'style="width:120px;height:auto;"'; 
                         } else {
                             switch (rowCount) {
                                 case 1:
@@ -200,9 +136,8 @@
 
                         companyElement.classList.add(colSize, 'mb-3', 'company-item', 'sty12');
 
-                        // Center the company if it's the only one in the row
                         if (rowCount === 1) {
-                            companyElement.classList.add('mx-auto'); // Center horizontally
+                            companyElement.classList.add('mx-auto');
                         }
 
                                 companyElement.innerHTML = `
@@ -227,79 +162,63 @@
                         row.appendChild(companyElement);
                         currentIndex++;
                     }
-
-                    // Center the row if it's not full
                     if (rowCount < 4) {
                         row.classList.add('justify-content-center');
                     }
-
-                    // companyList.appendChild(row);
                     companiesSection.appendChild(row);
                 });
 
             }
         });
-
-        // Function to group companies into rows based on total number
         function groupCompaniesIntoRows(total) {
             const rows = [];
             let remaining = total;
 
             while (remaining > 0) {
                 if (remaining === 12) {
-                    rows.push(4, 4, 4); // 12 companies: 3 rows of 4
+                    rows.push(4, 4, 4);
                     remaining -= 12;
                 } else if (remaining === 11) {
-                    rows.push(4, 4, 3); // 11 companies: 2 rows of 4, 1 row of 3
+                    rows.push(4, 4, 3); 
                     remaining -= 11;
                 } else if (remaining === 10) {
-                    rows.push(4, 4, 2); // 10 companies: 2 rows of 4, 1 row of 2
+                    rows.push(4, 4, 2); 
                     remaining -= 10;
                 } else if (remaining === 9) {
-                    rows.push(3, 3, 3); // 9 companies: 3 rows of 3
+                    rows.push(3, 3, 3); 
                     remaining -= 9;
                 } else if (remaining === 8) {
-                    // rows.push(4, 4); // 8 companies: 2 rows of 4
-                    rows.push(3, 3, 2); // 8 companies: 3 rows of 3,3,2
+                    rows.push(3, 3, 2); 
                     remaining -= 8;
                 } else if (remaining === 7) {
-                    // rows.push(4, 3); // 7 companies: 1 row of 4, 1 row of 3
-                    rows.push(3, 2, 2); // 7 companies: 1 row of 4, 1 row of 3
+                    rows.push(3, 2, 2);
                     remaining -= 7;
                 } else if (remaining === 6) {
-                    // rows.push(3, 3); // 6 companies: 2 rows of 3
-                    rows.push(2, 2, 2); // 6 companies: 2 rows of 3
+                    rows.push(2, 2, 2); 
                     remaining -= 6;
                 } else if (remaining === 5) {
-                    // rows.push(3, 2); // 5 companies: 1 row of 3, 1 row of 2
-                    rows.push(2, 1, 2); // 5 companies: 1 row of 3, 1 row of 2
+                    rows.push(2, 1, 2);
                     remaining -= 5;
                 } else if (remaining === 4) {
-                    rows.push(2, 2); // 4 companies: 2 rows of 2
+                    rows.push(2, 2); 
                     remaining -= 4;
                 } else if (remaining === 3) {
-                    rows.push(2, 1); // 3 companies: 1 row of 2, 1 row of 1
+                    rows.push(2, 1); 
                     remaining -= 3;
                 } else if (remaining === 2) {
-                    // rows.push(2); // 2 companies: 1 row of 2
                     rows.push(1, 1);
                     remaining -= 2;
                 } else if (remaining === 1) {
-                    rows.push(1); // 1 company: 1 row of 1
+                    rows.push(1); 
                     remaining -= 1;
                 } else {
-                    // Handle cases with more than 12 companies
-                    rows.push(4); // 4 companies per row for more than 12 companies
+                    rows.push(4); 
                     remaining -= 4;
                 }
             }
 
             return rows;
         }
-
-
-
-        // processing rearrangement logic 
 
     </script>
 </body>

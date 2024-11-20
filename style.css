@@ -21,8 +21,8 @@ body {
 /* Header */
 .header-container {
     width: 100%;
-    max-width: 1200px; /* Set max width for alignment stability */
-    margin: 0 auto; /* Center the header container */
+    max-width: 1200px; 
+    margin: 0 auto; 
     position: relative;
 }
 
@@ -37,7 +37,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap; /* Prevent wrapping */
+    flex-wrap: nowrap;
     margin: 0 auto;
 }
 
@@ -49,7 +49,7 @@ body {
     border-radius: 10px;
     padding: 6px;
     text-align: center;
-    max-width: calc(100% - 150px); /* Prevent text overlap with image */
+    max-width: calc(100% - 150px);
 }
 
 .header img {
@@ -155,7 +155,6 @@ body {
     padding: 5px;
     color: white;
     text-align: center;
-    /* border-radius: 8px; */
     background-color: #ff4c4c;
     margin: 0;
 }
@@ -293,7 +292,6 @@ body {
 
     #companyList .company-content img {
         max-width: 100px;
-        /* Maintain normal size */
     }
 
     #companiesSection .company-content img {
@@ -301,7 +299,6 @@ body {
     }
     .companyFS {
         background-image: url(./images/smallscrn.jpeg);
-        /* Small screen background */
         background-size: cover;
         background-position: center;
     }
@@ -330,7 +327,6 @@ body {
     }
     .companyFS {
         background-image: url(./images/mobback.jpeg);
-        /* Mobile screen background */
         background-size: cover;
         background-position: center;
     }
@@ -430,21 +426,15 @@ body {
 /* processing */
 .company {
     cursor: grab;
-    /* Change cursor to indicate item can be grabbed */
 }
 
-/* Change cursor to 'grabbing' when the item is being dragged */
 .company:active {
     cursor: grabbing;
-    /* Change cursor to indicate item is being grabbed */
 }
 
-/* Optional: Add a style for when the item is being dragged */
 .dragging {
     opacity: 0.5;
-    /* Make the item slightly transparent while dragging */
     border: 2px dashed #007bff;
-    /* Add a dashed border to indicate dragging */
 }
 
 /* Container for each company */
@@ -457,7 +447,6 @@ body {
     padding: 15px;
     margin: 10px;
     border-radius: 8px;
-    /* background-color: #f9f9f9; */
     width: 250px; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -466,8 +455,8 @@ body {
 .company-content {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centers the content horizontally */
-    width: 100%; /* Ensures alignment within the fixed width */
+    justify-content: center; 
+    width: 100%; 
     margin-bottom: 10px;
 }
 /* Container for the image */
@@ -512,27 +501,3 @@ body {
     text-align: center;
     width: 100%; 
 }
-
-
-
-
-
-
-/* Flex container for company content */
-/* .company-content {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-} */
-
-
-
-
-
-
-/* Technologies section styling */
-/* .technologies {
-    font-size: 14px;
-    color: #555;
-    text-align: center;
-} */
