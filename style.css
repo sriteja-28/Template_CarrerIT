@@ -64,6 +64,11 @@ body {
 
 /* Print Specific Styles */
 @media print {
+    body{
+        /* transform: scale(0.75); */
+        zoom:0.75;
+        transform-origin: center;
+    }
     .header-container {
         width: 100%;
         max-width: 1200px; 
@@ -72,9 +77,17 @@ body {
 
     .header {
         position: relative;
-        height: auto; 
+        height: 90px;
         padding: 15px;
-        background-color: #ff4c4c !important;
+        background-color: #ff4c4c;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin: 0 auto;
     }
 
     .hTxt {
@@ -159,6 +172,7 @@ body {
     margin: 0;
 }
 
+
 .footer p {
     margin: 3px 0;
 }
@@ -230,10 +244,20 @@ body {
 
 /* Media Queries */
 @media (max-width: 1200px) {
+   
     .header {
-        height: auto;
-        flex-direction: column;
-        align-items: flex-start;
+        position: relative;
+        height: 90px;
+        padding: 15px;
+        background-color: #ff4c4c;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin: 0 auto;
     }
 
    
@@ -270,10 +294,21 @@ body {
 
 @media (max-width: 768px) {
     .header {
-        height: auto;
-        padding: 10px;
+        position: relative;
+        height: 90px;
+        padding: 15px;
+        background-color: #ff4c4c;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin: 0 auto;
     }
 
+   
     .hTxt {
         flex-grow: 1;
         word-wrap: break-word;
@@ -306,10 +341,21 @@ body {
 
 @media (max-width: 576px) {
     .header {
-        padding: 5px;
-        font-size: 18px;
+        position: relative;
+        height: 90px;
+        padding: 15px;
+        background-color: #ff4c4c;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin: 0 auto;
     }
 
+   
     .hTxt {
         flex-grow: 1;
         word-wrap: break-word;
@@ -342,6 +388,10 @@ body {
 
 
 @media print {
+    body{
+        zoom:0.75;
+        transform-origin: center;
+    }
 
     .company-logo {
         max-height: 100px;
@@ -467,6 +517,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #fff;
+    /* background-color: #c9c7c7; */
     border: 1px solid #ccc;
  
     border-radius: 8px;
