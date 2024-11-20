@@ -62,7 +62,7 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
             transition: all 0.3s ease;
-           
+
         }
     </style>
 </head>
@@ -205,24 +205,25 @@
                             companyElement.classList.add('mx-auto'); // Center horizontally
                         }
 
-                        companyElement.innerHTML = `
-                    <div class="company">
-                        <div class="company-content">
-                        ${companies.length <= 2 ? `
-                            <div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:150px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
-                         `: `
-                            <div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';"></div>
-                        `}
-                        <p class="title" style='margin-left:10px;'>${company.name}</p>
-                        </div>
-                        ${company.technologies ? `
-                        <div class="technologies">
-                            <p><strong>Technologies:</strong> ${company.technologies}</p>
-                        </div>` : `<div class="technologies" style="visibility: hidden;">
-                            <p><strong>Technologies:</strong> ${company.technologies}</p>
-                        </div>`}
-                    </div>
-                `;
+                                companyElement.innerHTML = `
+                            <div class="company">
+                                <div class="company-content">
+                                ${companies.length <= 2 ? `
+                                    <div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:150px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
+                                 `: `
+                                    <div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';"></div>
+                                `}
+                                <p class="title" style='margin-left:10px;'>${company.name}</p>
+                                </div>
+                                ${company.technologies ? `
+                                <div class="technologies">
+                                    <p><strong>Technologies:</strong> ${company.technologies}</p>
+                                </div>` : `<div class="technologies" style="visibility: hidden;">
+                                    <p><strong>Technologies:</strong> ${company.technologies}</p>
+                                </div>`}
+                            </div>
+                        `;
+
                         row.appendChild(companyElement);
                         currentIndex++;
                     }

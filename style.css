@@ -1,9 +1,4 @@
-/* Base Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+
 
 .container {
     width: 100%;
@@ -16,23 +11,34 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
 /* Header */
+.header-container {
+    width: 100%;
+    max-width: 1200px; /* Set max width for alignment stability */
+    margin: 0 auto; /* Center the header container */
+    position: relative;
+}
+
 .header {
     position: relative;
-    /* height: 100px; */
     height: 90px;
     padding: 15px;
     background-color: #ff4c4c;
     font-size: 24px;
     font-weight: bold;
     border-radius: 10px;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    margin-bottom: 20px;
-    flex-wrap: nowrap;
-    /* Prevent wrapping */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    margin: 0 auto;
 }
 
 .hTxt {
@@ -43,26 +49,14 @@ body {
     border-radius: 10px;
     padding: 6px;
     text-align: center;
-    max-width: calc(100% - 100px);
-    /* Prevent text overlap with image */
-}
-
-.hdr-sty {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    max-width: 150px;
-    height: auto;
-    margin-left: 20px;
+    max-width: calc(100% - 150px); /* Prevent text overlap with image */
 }
 
 .header img {
     position: absolute;
-    top: 4px;
-    /* Make sure it's aligned properly */
-    right: 5px;
-    /* Keep it aligned right */
-    z-index: 10;
+    top: 5px;
+    right: 10px;
+    bottom: 5px;
     max-width: 130px;
     height: auto;
     border-radius: 10px;
@@ -70,19 +64,18 @@ body {
 
 /* Print Specific Styles */
 @media print {
-    .header {
-        position: relative;
-        height: 90px;
-        padding: 15px;
+    .header-container {
+        width: 100%;
+        max-width: 1200px; 
+        margin: 0 auto;
     }
 
-    /* .hTxt {
-        margin-left: 90px !important;
-        margin-right: 20px;
-        text-align: center;
-        max-width: calc(100% - 100px);
-       
-    } */
+    .header {
+        position: relative;
+        height: auto; 
+        padding: 15px;
+        background-color: #ff4c4c !important;
+    }
 
     .hTxt {
         flex-grow: 1;
@@ -92,17 +85,15 @@ body {
         border-radius: 10px;
         padding: 6px;
         text-align: center;
-        max-width: calc(100% - 100px);
-        transform: translateX(20%);
-        /* Prevent text overlap with image */
+        max-width: calc(100% - 150px); 
+        transform: none; 
     }
-
-
 
     .header img {
         position: absolute;
-        top: 4px;
-        right: 5px;
+        top: 5px;
+        right: 10px;
+        bottom: 5px;
         max-width: 130px;
         height: auto;
         border-radius: 10px;
@@ -119,6 +110,7 @@ body {
         page-break-inside: avoid;
     }
 }
+
 
 
 
@@ -193,10 +185,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* background-image: url(./images/grayewhite.jpeg); */
     border-radius: 20px;
-    /* background-repeat: no-repeat;
-    background-size: 100%; */
     backdrop-filter: blur(15px);
     background: rgba(255, 255, 255, 0.2);
 }
@@ -248,10 +237,17 @@ body {
         align-items: flex-start;
     }
 
+   
     .hTxt {
-        text-align: left;
-        margin-right: 0;
-        margin-bottom: 10px;
+        flex-grow: 1;
+        word-wrap: break-word;
+        margin-right: 20px;
+        color: white;
+        border-radius: 10px;
+        padding: 6px;
+        text-align: center;
+        max-width: calc(100% - 150px); 
+        transform: none; 
     }
 
     .hdr-sty {
@@ -263,19 +259,11 @@ body {
         grid-template-columns: repeat(4, 1fr);
     }
 
-    #companiesSection .company-content img {
-        max-width: 160px;
-        /* Adjust size for medium screens */
-    }
-
     .footer .col-4 {
         text-align: center;
     }
-
-    /* Form background for screen widths less than 1200px */
     .companyFS {
         background-image: url(./images/mediumScreenBackground.jpeg);
-        /* Medium screen background */
         background-size: cover;
         background-position: center;
     }
@@ -288,9 +276,15 @@ body {
     }
 
     .hTxt {
-        font-size: 20px;
-        margin-right: 0;
-
+        flex-grow: 1;
+        word-wrap: break-word;
+        margin-right: 20px;
+        color: white;
+        border-radius: 10px;
+        padding: 6px;
+        text-align: center;
+        max-width: calc(100% - 150px); 
+        transform: none; 
     }
 
     #companyList {
@@ -304,10 +298,7 @@ body {
 
     #companiesSection .company-content img {
         max-width: 140px;
-        /* Adjust size for small screens */
     }
-
-    /* Form background for screen widths less than 768px */
     .companyFS {
         background-image: url(./images/smallscrn.jpeg);
         /* Small screen background */
@@ -323,14 +314,20 @@ body {
     }
 
     .hTxt {
-        font-size: 16px;
+        flex-grow: 1;
+        word-wrap: break-word;
+        margin-right: 20px;
+        color: white;
+        border-radius: 10px;
+        padding: 6px;
+        text-align: center;
+        max-width: calc(100% - 150px); 
+        transform: none; 
     }
 
     .hdr-sty {
         max-width: 120px;
     }
-
-    /* Form background for screen widths less than 576px */
     .companyFS {
         background-image: url(./images/mobback.jpeg);
         /* Mobile screen background */
@@ -339,7 +336,6 @@ body {
     }
 }
 
-/* rearrangement logic */
 
 .sty12 {
     
@@ -351,30 +347,23 @@ body {
 
 @media print {
 
-    /* Adjust styles when printing */
     .company-logo {
         max-height: 100px;
-        /* Reduce the size of logos when printing */
         height: auto;
     }
 
     .row {
         page-break-inside: avoid;
-        /* Prevent row breaks during printing */
     }
 }
 
 @media (max-width: 768px) {
 
-    /* Adjust image sizes for smaller devices */
     .company-logo {
         max-width: 100%;
-        /* Allow images to take full width on smaller screens */
     }
 }
 
-/* processing */
-/* Regular Company List */
 #companyList {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -382,67 +371,43 @@ body {
 }
 
 #companyList .company {
-    /* border: 1px solid #ddd; */
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 20px;
     position: relative;
-    /* background-color: white; */
-    /* Ensure background is solid */
 }
 
 #companyList .company-content img {
     max-width: 100px;
-    /* Normal size for regular list */
     height: auto;
     object-fit: contain;
 }
 
 #companyList .company-logo {
     max-width: 100px;
-    /* Ensure logo size is consistent */
     height: auto;
 }
 
 #companyList .delete-btn {
     top: 10px;
     left: 10px;
-    /* Position appropriately for regular list */
     margin-left: 0;
-    /* Remove margin-left if not needed */
 }
 
 /* Final Company Section */
 #companiesSection .company {
-    /* border: 1px solid #ddd; */
     border: 2px solid #3d91eb;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 20px;
     position: relative;
-    /* background-color: white; */
-    /* Ensure background is solid */
 }
 
-#companiesSection .company-content img {
-    max-width: 180px;
-    /* Scaled size for final preview */
-    height: auto;
-    object-fit: contain;
-}
-
-#companiesSection .company-logo {
-    max-width: 180px;
-    /* Ensure logo size is consistent */
-    height: auto;
-}
 
 #companiesSection .delete-btn {
     top: 10px;
     left: 10px;
-    /* Position appropriately for final list */
     margin-left: 0;
-    /* Remove margin-left if not needed */
 }
 
 /* Shared Styles */
@@ -450,20 +415,6 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-}
-
-.title {
-    font-size: 1.35rem;
-    color: rgb(32, 52, 111);
-    font-weight: bold;
-    margin: 0;
-}
-
-.technologies {
-    margin-top: 10px;
-    /* Remove margin-left if it causes layout issues */
-    margin-left: 0;
-    padding: 10px;
 }
 
 .company-item {
@@ -496,9 +447,32 @@ body {
     /* Add a dashed border to indicate dragging */
 }
 
+/* Container for each company */
+.company {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    /* background-color: #f9f9f9; */
+    width: 250px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Flex container for company content */
+.company-content {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centers the content horizontally */
+    width: 100%; /* Ensures alignment within the fixed width */
+    margin-bottom: 10px;
+}
 /* Container for the image */
 .company-logo-container {
-    width: 150px;
+    width: 160px;
     height: 100px;
     display: flex;
     align-items: center;
@@ -516,4 +490,49 @@ body {
     max-height: 100%;
     object-fit: cover;
     background-color: #fff;
+    margin: 3px;
 }
+
+
+
+/* Title styling */
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    color:black;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+}
+
+/* Technologies section styling */
+.technologies {
+    font-size: 14px;
+    color:black;
+    text-align: center;
+    width: 100%; 
+}
+
+
+
+
+
+
+/* Flex container for company content */
+/* .company-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+} */
+
+
+
+
+
+
+/* Technologies section styling */
+/* .technologies {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+} */
