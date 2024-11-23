@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Header and Footer Layout</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    header, footer {
+      width: 100%;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    #middle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #eaeaea;
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+    }
+  </style>
+</head>
+<body>
+  <header id="header">Header</header>
+  <div id="middle">Middle Content</div>
+  <footer id="footer">Footer</footer>
+
+  <script>
+    const header = document.getElementById('header');
+    const footer = document.getElementById('footer');
+    const middle = document.getElementById('middle');
+    const root = document.documentElement;
+
+    const headerHeight = header.offsetHeight;
+    const footerHeight = footer.offsetHeight;
+
+    
+    root.style.setProperty('--header-height', `${headerHeight}px`);
+    root.style.setProperty('--footer-height', `${footerHeight}px`);
+  </script>
+</body>
+</html>

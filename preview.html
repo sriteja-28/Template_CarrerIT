@@ -17,24 +17,23 @@
             transform: translateY(-2px);
             transition: all 0.3s ease;
 
+
         }
     </style>
 </head>
 
 <body>
 
+    <div class="row header" style="display: flex; align-items: center; justify-content: space-between;">
+        <div class="hTxt" id="previewHeader" style="flex-grow: 1; text-align: center;">
+            <!-- UPCOMING DRIVES FOR SEPTEMBER & OCTOBER - 2024 -->
+        </div>
+        <div>
+            <img src="./images/carrerit.png" alt="logo" width="150px" height="60px" class="hdr-sty">
+        </div>
+    </div>
 
     <div class="container">
-        <div class="row header" style="display: flex; align-items: center; justify-content: space-between;">
-            <div class="hTxt" id="previewHeader" style="flex-grow: 1; text-align: center;">
-                <!-- UPCOMING DRIVES FOR SEPTEMBER & OCTOBER - 2024 -->
-            </div>
-            <div>
-                <img src="./images/carrerit.png" alt="logo" width="150px" height="60px" class="hdr-sty">
-            </div>
-        </div>
-
-
         <!-- Company List -->
         <!-- <div class="company-list" id="companyList"> -->
         <!-- Company List will be inserted here -->
@@ -104,7 +103,7 @@
 
                 rows.forEach(rowCount => {
                     const row = document.createElement('div');
-                    row.classList.add('row', 'mb-4');
+                    row.classList.add('row', 'mt-4');
 
                     for (let i = 0; i < rowCount; i++) {
                         if (currentIndex >= companies.length) break;
@@ -113,20 +112,24 @@
                         let colSize;
                         let imgStyle;
                         if (rowCount >= 4 || companies.length > 12) {
-                            colSize = 'col-md-3'; 
-                            imgStyle = 'style="width:120px;height:auto;"'; 
+                            colSize = 'col-md-3';
+                            siz = 'four';
+                            imgStyle = 'style="width:120px;height:auto;"';
                         } else {
                             switch (rowCount) {
                                 case 1:
                                     colSize = 'col-md-12';
+                                    siz = 'one';
                                     imgStyle = 'style="width:150px;height:auto;"';
                                     break;
                                 case 2:
                                     colSize = 'col-md-6';
+                                    siz = 'two';
                                     imgStyle = 'style="width:150px;height:auto;"';
                                     break;
                                 case 3:
                                     colSize = 'col-md-4';
+                                    siz = 'three';
                                     imgStyle = 'style="width:150px;height:auto;"';
                                     break;
                             }
@@ -134,14 +137,14 @@
 
                         const companyElement = document.createElement('div');
 
-                        companyElement.classList.add(colSize, 'mb-3', 'company-item', 'sty12');
+                        companyElement.classList.add(colSize, siz, 'mb-3', 'company-item', 'sty12');
 
                         if (rowCount === 1) {
                             companyElement.classList.add('mx-auto');
                         }
 
-                                companyElement.innerHTML = `
-                            <div class="company">
+                        companyElement.innerHTML = `
+                            <div class="company"  style="border: 2px solid #3d91eb;">
                                 <div class="company-content">
                                 ${companies.length <= 2 ? `
                                     <div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:150px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
@@ -164,8 +167,26 @@
                     }
                     if (rowCount < 4) {
                         row.classList.add('justify-content-center');
+                        //  row.classList.add('grid-container');
+
                     }
                     companiesSection.appendChild(row);
+                });
+                const comp = document.querySelectorAll('.company');
+                const totalCompanies = companies.length;
+
+                comp.forEach((element) => {
+                    if (totalCompanies === 1) {
+                        element.classList.add('one-company');
+                    } else if (totalCompanies === 2) {
+                        element.classList.add('two-companies');
+                    } else if (totalCompanies === 3) {
+                        element.classList.add('three-companies');
+                    } else if (totalCompanies === 4) {
+                        element.classList.add('four-companies');
+                    } else {
+                        element.classList.add('company-all');
+                    }
                 });
 
             }
@@ -179,40 +200,41 @@
                     rows.push(4, 4, 4);
                     remaining -= 12;
                 } else if (remaining === 11) {
-                    rows.push(4, 4, 3); 
+                    rows.push(4, 3, 4);
                     remaining -= 11;
                 } else if (remaining === 10) {
-                    rows.push(4, 4, 2); 
+                    rows.push(4, 2, 4);
                     remaining -= 10;
                 } else if (remaining === 9) {
-                    rows.push(3, 3, 3); 
+                    rows.push(3, 3, 3);
                     remaining -= 9;
                 } else if (remaining === 8) {
-                    rows.push(3, 3, 2); 
+                    rows.push(3, 2, 3);
                     remaining -= 8;
                 } else if (remaining === 7) {
-                    rows.push(3, 2, 2);
+                    rows.push(2, 3, 2);
                     remaining -= 7;
                 } else if (remaining === 6) {
-                    rows.push(2, 2, 2); 
+                    rows.push(2, 2, 2);
                     remaining -= 6;
                 } else if (remaining === 5) {
                     rows.push(2, 1, 2);
                     remaining -= 5;
                 } else if (remaining === 4) {
-                    rows.push(2, 2); 
+                    rows.push(2, 2);
                     remaining -= 4;
                 } else if (remaining === 3) {
-                    rows.push(2, 1); 
+                    rows.push(2, 1);
                     remaining -= 3;
                 } else if (remaining === 2) {
-                    rows.push(1, 1);
+                    // rows.push(1, 1);
+                    rows.push(2);
                     remaining -= 2;
                 } else if (remaining === 1) {
-                    rows.push(1); 
+                    rows.push(1);
                     remaining -= 1;
                 } else {
-                    rows.push(4); 
+                    rows.push(4);
                     remaining -= 4;
                 }
             }

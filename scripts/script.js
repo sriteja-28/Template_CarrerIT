@@ -1,5 +1,5 @@
 const DB_NAME = 'CompanyDatabase';
-const DB_VERSION = 4; 
+const DB_VERSION = 4;
 function openDB(callback) {
     const dbRequest = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -62,7 +62,7 @@ function saveDataToDB(headerTitle, companies) {
                 console.error("Company missing 'name' key:", company);
             }
         });
-        saveHeaderTitleToDB(headerTitle); 
+        saveHeaderTitleToDB(headerTitle);
 
         transaction.oncomplete = function () {
             console.log("Companies and header title saved successfully.");
@@ -133,7 +133,7 @@ document.getElementById('editBtn').addEventListener('click', function () {
 
 let companies = [];
 let selectedCompanyIndex = null;
-let clickCount = 0; 
+let clickCount = 0;
 function renderCompanyList() {
     const companyList = document.getElementById('companyList');
     companyList.innerHTML = '';
@@ -166,7 +166,7 @@ function renderCompanyList() {
         animation: 150,
         onEnd: function (event) {
             const movedItem = companies.splice(event.oldIndex, 1)[0];
-            companies.splice(event.newIndex, 0, movedItem); 
+            companies.splice(event.newIndex, 0, movedItem);
             renderCompanyList();
         }
     });
@@ -190,7 +190,7 @@ function uploadImage(event) {
                     console.error(`Logo preview element for company ${selectedCompanyIndex} not found!`);
                 }
             } else {
-               // console.error('No company is selected for logo upload.');
+                // console.error('No company is selected for logo upload.');
             }
         };
     } else {
@@ -202,7 +202,7 @@ function populateFormFields(company, index) {
     document.getElementById('companyName').value = company.name;
     document.getElementById('technologies').value = company.technologies;
 
-    selectedCompanyIndex = index; 
+    selectedCompanyIndex = index;
     const logoPreview = document.getElementById(`logoPreview-${index}`);
     if (company.logo && company.logo.startsWith('data:image/') || company.logo.startsWith('http')) {
         logoPreview.src = company.logo;
@@ -228,18 +228,18 @@ function handleFormSubmit(event) {
     }
 
     document.getElementById('companyForm').reset();
-    logoPreview.src = './images/draganddrop.webp'; 
+    logoPreview.src = './images/draganddrop.webp';
     document.getElementById('addCompanyBtn').style.display = 'block';
     document.getElementById('updateCompanyBtn').style.display = 'none';
 
-    renderCompanyList(); 
+    renderCompanyList();
 }
 
 function handleCompanyUpdate() {
     const name = document.getElementById('companyName').value;
     const technologies = document.getElementById('technologies').value;
     const logoPreview = document.getElementById(`logoPreview-${selectedCompanyIndex}`);
-    const logo = logoPreview ? logoPreview.src : './images/draganddrop.webp'; 
+    const logo = logoPreview ? logoPreview.src : './images/draganddrop.webp';
 
     if (!name || !logoPreview) {
         alert("Please fill in all fields.");
@@ -247,22 +247,22 @@ function handleCompanyUpdate() {
     }
     companies[selectedCompanyIndex] = { name, logo, technologies };
     document.getElementById('companyForm').reset();
-    logoPreview.src = './images/draganddrop.webp'; 
+    logoPreview.src = './images/draganddrop.webp';
     document.getElementById('addCompanyBtn').style.display = 'block';
     document.getElementById('updateCompanyBtn').style.display = 'none';
 
     selectedCompanyIndex = null;
-    renderCompanyList(); 
+    renderCompanyList();
 }
 
 
 
 function handleDoubleClick(company, index) {
-    clickCount++; 
+    clickCount++;
 
     if (clickCount === 2) {
-        populateFormFields(company, index); 
-        clickCount = 0; 
+        populateFormFields(company, index);
+        clickCount = 0;
     }
     setTimeout(() => {
         clickCount = 0;
@@ -280,8 +280,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 function deleteCompany(index) {
     if (confirm('Are you sure you want to delete this company?')) {
-        companies.splice(index, 1); 
-        renderCompanyList(); 
+        companies.splice(index, 1);
+        renderCompanyList();
     }
 }
 
@@ -379,14 +379,14 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
 
         document.getElementById('formSection').style.display = 'none';
         const companiesSection = document.getElementById('companiesSection');
-        companiesSection.innerHTML = ''; 
+        companiesSection.innerHTML = '';
 
         const rows = groupCompaniesIntoRows(companies.length);
         let currentIndex = 0;
 
         rows.forEach(rowCount => {
             const row = document.createElement('div');
-            row.classList.add('row', 'mb-4'); 
+            row.classList.add('row', 'mt-4');
             for (let i = 0; i < rowCount; i++) {
                 if (currentIndex >= companies.length) break;
 
@@ -395,32 +395,36 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
                 let imgStyle;
                 if (rowCount >= 4 || companies.length > 12) {
                     colSize = 'col-md-3';
-                    imgStyle = 'style="width:120px !important;height:auto;"'; 
+                    siz = 'four';
+                    imgStyle = 'style="width:120px !important;height:auto;"';
                 } else {
                     switch (rowCount) {
                         case 1:
                             colSize = 'col-md-12';
+                            siz = 'one';
                             imgStyle = 'style="width:150px;height:auto;"';
                             break;
                         case 2:
                             colSize = 'col-md-6';
+                            siz = 'two';
                             imgStyle = 'style="width:150px;height:auto;"';
                             break;
                         case 3:
                             colSize = 'col-md-4';
+                            siz = 'three';
                             imgStyle = 'style="width:150px;height:auto;"';
                             break;
                     }
                 }
 
                 const companyElement = document.createElement('div');
-                companyElement.classList.add(colSize, 'mb-3', 'company-item', 'sty12');
+                companyElement.classList.add(colSize, siz, 'mb-3', 'company-item', 'sty12');
                 if (rowCount === 1) {
                     companyElement.classList.add('mx-auto');
                 }
 
                 companyElement.innerHTML = `
-                    <div class="company">
+                    <div class="company" style="border: 2px solid #3d91eb;">
                         <div class="company-content">
                         ${companies.length <= 2 ? `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" class="img-fluid company-logo"  style="width:150px;height:auto;" onerror="this.onerror=null; this.src='default-image.png';"></div>
                          `: `<div class="company-logo-container"><img src="${company.logo}" alt="${company.name}" ${imgStyle} class="img-fluid company-logo" onerror="this.onerror=null; this.src='default-image.png';"></div>
@@ -443,6 +447,22 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
 
             companiesSection.appendChild(row);
         });
+        const comp = document.querySelectorAll('.company');
+        const totalCompanies = companies.length;
+
+        comp.forEach((element) => {
+            if (totalCompanies === 1) {
+                element.classList.add('one-company');
+            } else if (totalCompanies === 2) {
+                element.classList.add('two-companies');
+            } else if (totalCompanies === 3) {
+                element.classList.add('three-companies');
+            } else if (totalCompanies === 4) {
+                element.classList.add('four-companies');
+            } else {
+                element.classList.add('company-all');
+            }
+        });
 
     } else {
         alert("No companies have been added yet. Please add at least one company before submitting.");
@@ -455,40 +475,41 @@ function groupCompaniesIntoRows(total) {
 
     while (remaining > 0) {
         if (remaining === 12) {
-            rows.push(4, 4, 4); 
+            rows.push(4, 4, 4);
             remaining -= 12;
         } else if (remaining === 11) {
-            rows.push(4, 4, 3); 
+            rows.push(4, 3, 4);
             remaining -= 11;
         } else if (remaining === 10) {
-            rows.push(4, 4, 2); 
+            rows.push(4, 2, 4);
             remaining -= 10;
         } else if (remaining === 9) {
             rows.push(3, 3, 3);
             remaining -= 9;
         } else if (remaining === 8) {
-            rows.push(3, 3, 2);
+            rows.push(3, 2, 3);
             remaining -= 8;
         } else if (remaining === 7) {
-            rows.push(3, 2, 2);
+            rows.push(2, 3, 2);
             remaining -= 7;
         } else if (remaining === 6) {
-            rows.push(2, 2, 2); 
+            rows.push(2, 2, 2);
             remaining -= 6;
         } else if (remaining === 5) {
-            rows.push(2, 1, 2); 
+            rows.push(2, 1, 2);
             remaining -= 5;
         } else if (remaining === 4) {
             rows.push(2, 2);
             remaining -= 4;
         } else if (remaining === 3) {
-            rows.push(2, 1); 
+            rows.push(2, 1);
             remaining -= 3;
         } else if (remaining === 2) {
-            rows.push(1, 1);
+            // rows.push(1, 1);
+            rows.push(2);
             remaining -= 2;
         } else if (remaining === 1) {
-            rows.push(1); 
+            rows.push(1);
             remaining -= 1;
         } else {
             rows.push(4);
@@ -549,7 +570,7 @@ function displayImage(file) {
 }
 function replaceImage(src) {
     const dropzone = document.getElementById('dropzone');
-    dropzone.innerHTML = ''; 
+    dropzone.innerHTML = '';
 
     const imgElement = document.createElement('img');
     imgElement.src = src;
