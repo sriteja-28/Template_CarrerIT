@@ -446,6 +446,7 @@ document.getElementById('submitFormBtn').addEventListener('click', function () {
             }
 
             companiesSection.appendChild(row);
+            updateZoomLevel();
         });
         const comp = document.querySelectorAll('.company');
         const totalCompanies = companies.length;
@@ -576,3 +577,33 @@ function replaceImage(src) {
     imgElement.src = src;
     dropzone.appendChild(imgElement);
 }
+
+
+const updateZoomLevel = () => {
+    const companiesContainer = document.querySelector(".companies");
+    if (!companiesContainer) {
+        console.error("The .companies element does not exist.");
+        return;
+    }
+
+    const row = companiesContainer.children.length;
+    console.log("Updated number of row:", row);
+
+    let scalePercentage;
+    if (row === 1) {
+        scalePercentage = 1.0;
+    } else if (row === 2) {
+        scalePercentage = 0.80;
+    } else if (row == 3) {
+        scalePercentage = 0.65;
+    } else {
+        scalePercentage = 0.45;
+    }
+
+    document.documentElement.style.setProperty("--print-zoom", scalePercentage);
+};
+
+// Call `updateZoomLevel` dynamically after adding companies
+document.addEventListener("DOMContentLoaded", () => {
+    updateZoomLevel();
+});
