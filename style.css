@@ -71,6 +71,11 @@ body {
     font-weight: bold;
     font-size: medium;
 }
+.stylabel{
+    color: inherit;
+    font-weight: bold;
+    font-size: medium;
+}
 
 
 .delete-btn {
