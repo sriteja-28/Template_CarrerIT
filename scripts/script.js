@@ -159,13 +159,12 @@ function renderCompanyList() {
         `;
         companyList.appendChild(companyElement);
         companyElement.setAttribute('data-index', index);
-        companyElement.addEventListener('click', () => handleDoubleClick(company, index));
-
-        companyElement.addEventListener('click', () => {
+        companyElement.addEventListener('dblclick', () => {
             const confirmEdit = confirm("Are you sure you want to edit this company?");
             if (confirmEdit) {
-                handleDoubleClick(company, index);
+                populateFormFields(company, index);
             }
+            
         });
     });
     new Sortable(companyList, {
@@ -173,9 +172,12 @@ function renderCompanyList() {
         onEnd: function (event) {
             const movedItem = companies.splice(event.oldIndex, 1)[0];
             companies.splice(event.newIndex, 0, movedItem);
+            alert("Companies sorted!");
             renderCompanyList();
+            
         }
     });
+   
 }
 
 
@@ -196,6 +198,7 @@ function uploadImage(event) {
                     console.error(`Logo preview element for company ${selectedCompanyIndex} not found!`);
                 }
             } else {
+                //!on progression
                 // console.error('No company is selected for logo upload.');
             }
         };
@@ -258,25 +261,9 @@ function handleCompanyUpdate() {
     document.getElementById('updateCompanyBtn').style.display = 'none';
 
     selectedCompanyIndex = null;
+    alert('Company updated successfully!');
     renderCompanyList();
 }
-
-
-
-function handleDoubleClick(company, index) {
-    clickCount++;
-
-    if (clickCount === 2) {
-        populateFormFields(company, index);
-        clickCount = 0;
-    }
-    setTimeout(() => {
-        clickCount = 0;
-    }, 1000);
-}
-
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('companyForm').addEventListener('submit', handleFormSubmit);
@@ -287,6 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function deleteCompany(index) {
     if (confirm('Are you sure you want to delete this company?')) {
         companies.splice(index, 1);
+        alert('Company deleted successfully!');
         renderCompanyList();
     }
 }
@@ -326,6 +314,7 @@ document.getElementById('addCompanyBtn').addEventListener('click', function () {
 
         companies.push(newCompany);
         renderCompanyList();
+        alert("Company added!");
         document.getElementById('companyForm').reset();
         resetImagePreview();
     };
@@ -609,7 +598,6 @@ const updateZoomLevel = () => {
     document.documentElement.style.setProperty("--print-zoom", scalePercentage);
 };
 
-// Call `updateZoomLevel` dynamically after adding companies
 document.addEventListener("DOMContentLoaded", () => {
     updateZoomLevel();
 });

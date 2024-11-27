@@ -17,11 +17,6 @@ body {
     overflow-x: hidden;
 }
 
-/* header,footer{
-      position: sticky;
-} */
-
-/* Header */
 .header-container {
     width: 100%;
     max-width: 1200px;
@@ -36,7 +31,6 @@ body {
     background-color: #ff4c4c;
     font-size: 24px;
     font-weight: bold;
-    /* border-radius: 10px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,20 +65,13 @@ body {
 
 .call-link,
 .email-link,
-.website-link {
+.website-link,.addr {
     text-decoration: none;
     color: inherit;
     font-weight: bold;
-}
-
-.call-link {
     font-size: medium;
 }
 
-.email-link,
-.website-link {
-    font-size: smaller;
-}
 
 .delete-btn {
     position: absolute;
@@ -479,7 +466,6 @@ body {
 }
 
 
-/* processing */
 .company {
     cursor: grab;
 }
@@ -525,7 +511,6 @@ body {
     width: 270px;
 }
 
-/* Flex container for company content */
 .company-content {
     display: flex;
     align-items: center;
@@ -534,7 +519,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* Container for the image */
 .company-logo-container {
     width: 160px;
     height: 120px;
@@ -542,15 +526,11 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #fff;
-
-    /* background-color: #c9c7c7; */
     border: 1px solid #ccc;
 
     border-radius: 8px;
     overflow: hidden;
 }
-
-/* Image styling to make sure it fits within container */
 .company-logo-container img {
     max-width: 100%;
     max-height: 100%;
@@ -577,19 +557,15 @@ body {
     width: 100%;
 }
 
-
-/* Title styling */
 #companiesSection .title {
     font-size: large;
     font-weight: bold;
     color: black;
-    text-align: center;
+    text-align: left;
     margin-left: 10px;
     width: 100%;
 }
 
-
-/* Technologies section styling */
 #companiesSection .technologies {
     font-size: medium;
     color: black;
@@ -597,7 +573,6 @@ body {
     width: 100%;
 }
 
-/* Based on comapnies logic */
 #companiesSection .one-company,
 .two-companies,
 .three-companies,
