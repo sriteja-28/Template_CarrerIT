@@ -161,6 +161,12 @@ function renderCompanyList() {
         companyElement.setAttribute('data-index', index);
         companyElement.addEventListener('click', () => handleDoubleClick(company, index));
 
+        companyElement.addEventListener('click', () => {
+            const confirmEdit = confirm("Are you sure you want to edit this company?");
+            if (confirmEdit) {
+                handleDoubleClick(company, index);
+            }
+        });
     });
     new Sortable(companyList, {
         animation: 150,

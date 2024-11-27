@@ -75,7 +75,15 @@ body {
     text-decoration: none;
     color: inherit;
     font-weight: bold;
-    font-size: 12px;
+}
+
+.call-link {
+    font-size: medium;
+}
+
+.email-link,
+.website-link {
+    font-size: smaller;
 }
 
 .delete-btn {
@@ -276,6 +284,7 @@ body {
         background-size: cover;
         background-position: center;
     }
+
     .company-logo {
         max-width: 100%;
     }
@@ -326,7 +335,7 @@ body {
 @media print {
     body {
         zoom: var(--print-zoom, 0.65);
-        
+
     }
 
     .companies {
@@ -338,6 +347,7 @@ body {
         max-width: 1200px;
         margin: 0 auto;
     }
+
     .container {
         width: 100%;
         max-width: 100%;
@@ -349,12 +359,13 @@ body {
         background-repeat: no-repeat;
         background-size: cover;
     }
-    #companiesSection{
+
+    #companiesSection {
         display: grid;
         gap: 20px;
-        justify-content: center; 
+        justify-content: center;
         padding: 0;
-        margin: 0 auto; 
+        margin: 0 auto;
     }
 
     .header {
@@ -547,9 +558,10 @@ body {
     background-color: #fff;
     margin: 3px;
 }
+
 /* for rendering */
 .title {
-    
+
     font-size: 16px;
     font-weight: bold;
     color: black;
@@ -557,7 +569,8 @@ body {
     margin: 3px;
     width: 100%;
 }
- .technologies {
+
+.technologies {
     font-size: 14px;
     color: black;
     text-align: center;
@@ -578,7 +591,7 @@ body {
 
 /* Technologies section styling */
 #companiesSection .technologies {
-    font-size:medium;
+    font-size: medium;
     color: black;
     text-align: center;
     width: 100%;
@@ -598,23 +611,7 @@ body {
     align-items: center;
     position: relative;
 }
-/* 
 
-#companiesSection .one-company,
-.two-companies,
-.three-companies,
-.four-companies {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin: 10px;
-    border-radius: 8px;
-    border: #3498db;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-} */
 
 #companiesSection .one-company,
 .two-companies {
